@@ -3,7 +3,8 @@ spring.data.rest.base-path=/api
 
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 
-
+spring.jpa.database=POSTGRESQL
+spring.datasource.platform=postgres
 
 ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
 spring.datasource.url=jdbc:postgresql://localhost:5432/kpitask
