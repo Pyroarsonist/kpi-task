@@ -1,5 +1,6 @@
 package kpi.is.kpitask.controller;
 
+import kpi.is.kpitask.dao.entity.User;
 import kpi.is.kpitask.domain.UserService;
 import kpi.is.kpitask.dto.RequestUserDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,23 @@ public class UserController {
     private UserService userService;
 
     @PostMapping(produces = "application/json")
+    @RequestMapping("/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody RequestUserDto user) {
         try {
-            userService.createUser(user.getName(),user.getPassword());
+            userService.createUser(user.getName(), user.getPassword());
             return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(produces = "application/json")
+    @RequestMapping("/login")
+    public ResponseEntity<?> loginUser(@Valid @RequestBody RequestUserDto user) {
+        try {
+            User foundedUser = userService.findUserByName(user.getName());
+            return new ResponseEntity<>(foundedUser.getName(), HttpStatus.OK);
+            //todo: add session
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
