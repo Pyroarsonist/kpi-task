@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Card, Button, CardHeader, CardFooter, CardBody, CardText} from 'reactstrap';
+import {Card as CardR, Button, CardHeader, CardFooter, CardBody, CardText} from 'reactstrap';
 import cx from 'classnames'
 
 class Card extends Component {
@@ -27,14 +27,14 @@ class Card extends Component {
     render() {
         const {card} = this.props;
         return(
-        <Card>
+        <CardR>
             <CardHeader className={cx(this.getImportanceClass())}>{card.title}</CardHeader>
             <CardBody>
                 <CardText>{card.text}</CardText>
                 <Button>Выполнено</Button>
             </CardBody>
             <CardFooter className="text-muted">{card.deadline}</CardFooter>
-        </Card>
+        </CardR>
         )
     }
 }

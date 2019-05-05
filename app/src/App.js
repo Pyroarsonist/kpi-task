@@ -1,31 +1,29 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import 'react-router-dom';
-//import LoginPage from 'components/LoginPage';
+import LoginPage from './components/LoginPage';
 
 class App extends Component {
 
 
-  render() {
-      return (
-          <div className="container col-4">
-            <form className="form-signin">
-              <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-              <label htmlFor="inputEmail" className="sr-only">Email address</label>
-              <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required
-                     autoFocus />
-              <label htmlFor="inputPassword" className="sr-only">Password</label>
-              <input type="password" id="inputPassword" className="form-control" placeholder="Password"
-                     required />
-              <div className="checkbox mb-3">
-                <label>
-                  <input type="checkbox" value="remember-me" /> Remember me
-                </label>
-              </div>
-              <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    async componentDidMount() {
+        // try {
+        //     const data = await fetch('/api/tasks/', {
+        //         mode: 'no-cors',
+        //         credentials: 'include',
+        //     })
+        //         .then(x => x.json())
+        //     console.log(data)
+        // } catch (e) {
+        //     console.error(e)
+        // }
+    }
 
-            </form>
-          </div>
-      )
+    render() {
+        return (
+            <div className="container col-4">
+                <LoginPage/>
+            </div>
+        )
     }
 }
 
