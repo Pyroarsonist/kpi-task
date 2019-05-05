@@ -4,6 +4,7 @@ package kpi.is.kpitask.dao.entity;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Date;
 
 @Entity
 @Table(name = "\"user\"")
@@ -30,6 +31,12 @@ public class User {
     public User(String name, String password) {
         this.name = name;
         this.password = password;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        Date currentDate = new java.util.Date();
+        this.createdAt = new Timestamp(currentDate.getTime());
     }
 
     public Long getId() {
