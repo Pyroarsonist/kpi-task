@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -45,9 +46,9 @@ public class UserController {
     }
 
     @PostMapping("/logout")
-    public String destroySession(HttpSession session) {
+    public RedirectView destroySession(HttpSession session) {
         session.invalidate();
-        return "redirect:/";
+        return new RedirectView("/");
     }
 
 }

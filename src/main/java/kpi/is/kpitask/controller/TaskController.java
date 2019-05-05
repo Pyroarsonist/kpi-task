@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -33,29 +32,36 @@ public class TaskController {
         return taskService.getTasks();
     }
 
+
+    private User getUser(Object id) {
+        if (id == null) throw new Error("User id not given");
+        Long userId = Long.parseLong(id.toString());
+        Optional<User> user = userService.findUserById(userId);
+        if (user.isEmpty())
+            throw new Error("This user cannot be found");
+        return user.get();
+    }
+
     @PostMapping(produces = "application/json")
     @RequestMapping("/create")
     public @ResponseBody
-    String createTask(@Valid @RequestBody RequestTaskDto task, HttpSession session) {
-        Long userId = (Long) session.getAttribute("userId");
-        if (userId == null) return "User id not given";
-        Optional<User> user = userService.findUserById(userId);
-        if (user.isEmpty())
-            return "This user cannot be found";
-        final Long id = taskService.createTask(user.get(), task.getTitle(), task.getDescription(), task.getDeadline(), task.getImportance());
-        if (Objects.isNull(id)) {
-            return "Something went wrong. Can't create task " + task.getTitle();
-        } else {
-            return "Created task [" + task.getTitle() + "] with id = " + id;
+    ResponseEntity<?> createTask(@Valid @RequestBody RequestTaskDto task, HttpSession session) {
+        try {
+            User user = getUser(session.getAttribute("userId"));
+            final Long id = taskService.createTask(user, task.getTitle(), task.getDescription(), task.getDeadline(), task.getImportance());
+            return new ResponseEntity<>("Created task [" + task.getTitle() + "] with id = " + id, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
     @PostMapping(produces = "application/json")
     @RequestMapping("/edit")
-    public ResponseEntity<?> editTask(@Valid @RequestBody RequestTaskDto task) {
+    public ResponseEntity<?> editTask(@Valid @RequestBody RequestTaskDto task, HttpSession session) {
         try {
-            taskService.editTask(1L, task.getTitle(), task.getDescription(), task.getDeadline(), task.getImportance());
-            return new ResponseEntity<>(HttpStatus.OK);
+            User user = getUser(session.getAttribute("userId"));
+            Long id = taskService.editTask(user, task.getId(), task.getTitle(), task.getDescription(), task.getDeadline(), task.getImportance(), task.getCompleted());
+            return new ResponseEntity<>("Edited task #" + id, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
