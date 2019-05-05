@@ -14,6 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("user")
@@ -26,8 +27,11 @@ public class UserController {
     @RequestMapping("/register")
     public ResponseEntity<?> createUser(@Valid @RequestBody RequestUserDto user) {
         try {
-            userService.createUser(user.getName(), user.getPassword());
-            return new ResponseEntity<>(HttpStatus.OK);
+            Optional<User> foundedUser = userService.findUserByName(user.getName());
+            if (foundedUser.isPresent())
+                throw new Error("User with this name already exists");
+            User createdUser = userService.createUser(user.getName(), user.getPassword());
+            return new ResponseEntity<>("Created new user #" + createdUser.getId() + " with name " + createdUser.getName(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -35,11 +39,14 @@ public class UserController {
 
     @PostMapping(produces = "application/json")
     @RequestMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody RequestUserDto user, HttpSession session) {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody RequestUserDto userDTO, HttpSession session) {
         try {
-            User foundedUser = userService.findUserByName(user.getName());
-            session.setAttribute("userId", foundedUser.getId());
-            return new ResponseEntity<>(foundedUser.getName(), HttpStatus.OK);
+            Optional<User> foundedUser = userService.findUserByNameAndPassword(userDTO.getName(), userDTO.getPassword());
+            if (foundedUser.isEmpty())
+                throw new Error("No such user");
+            User user = foundedUser.get();
+            session.setAttribute("userId", user.getId());
+            return new ResponseEntity<>("Logged in as " + user.getName(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

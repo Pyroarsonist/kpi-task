@@ -12,9 +12,10 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public void createUser(String name, String password) {
+    public User createUser(String name, String password) {
         User user = new User(name, password);
         userRepository.save(user);
+        return user;
     }
 
 
@@ -22,11 +23,11 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User findUserByName(String name) {
+    public Optional<User> findUserByName(String name) {
         return userRepository.findByName(name);
     }
 
-    public User findUserByNameAndPassword(String name, String password) {
+    public Optional<User> findUserByNameAndPassword(String name, String password) {
         return userRepository.findUserByNameAndPassword(name, password);
     }
 
