@@ -30,6 +30,7 @@ public class TaskService {
         task.setDeadline(deadline);
         task.setImportance(importance);
         task.setUser(user);
+        task.setCompleted(false);
         task = taskRepository.save(task);
         taskRepository.flush();
         return task.getId();

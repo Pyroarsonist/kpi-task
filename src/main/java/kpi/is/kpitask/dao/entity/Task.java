@@ -34,8 +34,8 @@ public class Task {
 
     @Column
     @NotNull
-    @ColumnDefault("false")
-    private Boolean completed = false;
+    @ColumnDefault(value = "false")
+    private Boolean completed;
 
 
     @ManyToOne
@@ -96,8 +96,7 @@ public class Task {
     }
 
     public void setDeadline(Date deadline) {
-        Date currentDate = new java.util.Date();
-        this.deadline = new Timestamp(currentDate.getTime());
+        this.deadline = new Timestamp(deadline.getTime());
     }
 
     public String getImportance() {
