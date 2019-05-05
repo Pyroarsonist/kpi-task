@@ -6,6 +6,6 @@ import java.util.Date;
 import java.util.Optional;
 
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    Iterable<Task> findByUserIdAndCompletedAndDeadline(Long userId, Boolean completed, Date deadline);
+    Iterable<Task> findByUserAndCompletedAndDeadline(Long userId, Boolean completed, Date deadline);
     Optional<Task> findById(Long id);
 }

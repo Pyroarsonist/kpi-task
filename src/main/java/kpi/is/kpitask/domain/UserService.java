@@ -5,6 +5,8 @@ import kpi.is.kpitask.dao.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserService {
     @Autowired
@@ -26,5 +28,9 @@ public class UserService {
 
     public User findUserByNameAndPassword(String name, String password) {
         return userRepository.findUserByNameAndPassword(name, password);
+    }
+
+    public Optional<User> findUserById(Long userId) {
+        return userRepository.findById(userId);
     }
 }

@@ -2,6 +2,7 @@ package kpi.is.kpitask.domain;
 
 import kpi.is.kpitask.dao.TaskRepository;
 import kpi.is.kpitask.dao.entity.Task;
+import kpi.is.kpitask.dao.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +19,17 @@ public class TaskService {
 
     //    todo: add ordered tasks
     public Iterable<Task> getTasks() {
-        return taskRepository.findByUserIdAndCompletedAndDeadline(null, null, null);
+        return taskRepository.findByUserAndCompletedAndDeadline(null, null, null);
     }
 
 
-    //    todo: add creation of task with user id
-    public Long createTask(String title, String description, Date deadline, String importance) {
+    public Long createTask(User user, String title, String description, Date deadline, String importance) {
         Task task = new Task();
         task.setTitle(title);
         task.setDescription(description);
         task.setDeadline(deadline);
         task.setImportance(importance);
+        task.setUser(user);
         task = taskRepository.save(task);
         taskRepository.flush();
         return task.getId();
