@@ -1,16 +1,13 @@
 import React, { Component } from 'react';
-
+import 'react-router-dom';
+//import LoginPage from 'components/LoginPage';
 
 class App extends Component {
 
-  state = {
-    isLogged: false
-  }
 
   render() {
-    if (!this.state.isLogged) {
       return (
-          <div className="text-center">
+          <div className="container col-4">
             <form className="form-signin">
               <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
               <label htmlFor="inputEmail" className="sr-only">Email address</label>
@@ -30,13 +27,6 @@ class App extends Component {
           </div>
       )
     }
-
-    return (
-      <div>
-
-      </div>
-    );
-  }
 }
 
 export default App;

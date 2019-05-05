@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+
 class LoginPage extends Component{
     render() {
         return (
@@ -24,3 +25,5 @@ class LoginPage extends Component{
         )
     }
 }
+
+export default LoginPage;
