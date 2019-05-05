@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import {Card, Button, CardHeader, CardFooter, CardBody, CardText} from 'reactstrap';
-import cx from 'classnames'
+import {Card as CardR, Button, CardHeader, CardFooter, CardBody, CardText} from 'reactstrap';
+//import cx from 'classnames'
 
 class Card extends Component {
 
@@ -12,13 +12,14 @@ class Card extends Component {
     }
 
     getImportanceClass() {
+        console.log(this.props.importance)
         switch (this.props.importance) {
             case "standard" :
-                return 'bg-primary'
+                return 'bg-primary';
             case "important" :
-                return 'bg-warning'
+                return 'bg-warning';
             case "vital" :
-                return 'bg-danger'
+                return 'bg-danger';
             default:
                 return 'bg-secondary'
         }
@@ -27,14 +28,16 @@ class Card extends Component {
     render() {
         const {card} = this.props;
         return(
-        <Card>
-            <CardHeader className={cx(this.getImportanceClass())}>{card.title}</CardHeader>
+            <div className="col-4 mt-2">
+        <CardR>
+            <CardHeader className={this.getImportanceClass()}>{card.title}</CardHeader>
             <CardBody>
-                <CardText>{card.text}</CardText>
+                <CardText>{card.description}</CardText>
                 <Button>Выполнено</Button>
             </CardBody>
             <CardFooter className="text-muted">{card.deadline}</CardFooter>
-        </Card>
+        </CardR>
+            </div>
         )
     }
 }
