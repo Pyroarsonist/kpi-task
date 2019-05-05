@@ -1,6 +1,9 @@
 package kpi.is.kpitask.dao.entity;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -23,10 +26,15 @@ public class Task {
 
     private Timestamp deadline;
 
+    /**
+     * Could be standard, important, vital
+     **/
     @Column(length = 32)
     private String importance;
 
     @Column
+    @NotNull
+    @ColumnDefault(value = "false")
     private Boolean completed;
 
 
@@ -88,8 +96,7 @@ public class Task {
     }
 
     public void setDeadline(Date deadline) {
-        Date currentDate = new java.util.Date();
-        this.deadline = new Timestamp(currentDate.getTime());
+        this.deadline = new Timestamp(deadline.getTime());
     }
 
     public String getImportance() {
@@ -106,5 +113,13 @@ public class Task {
 
     public void setCompleted(Boolean completed) {
         this.completed = completed;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

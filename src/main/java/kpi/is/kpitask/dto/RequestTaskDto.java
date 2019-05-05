@@ -1,26 +1,21 @@
 package kpi.is.kpitask.dto;
 
-import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 
 public class RequestTaskDto {
 
-    @NotNull
     private String title;
 
-    @NotNull
     private String description;
 
     private Timestamp deadline;
 
-    @NotNull
     private String importance;
 
-    @NotNull
     private Boolean completed;
 
-    @NotNull
-    private Long userId;
+    private Long id;
+
 
     public String getTitle() {
         return title;
@@ -62,11 +57,11 @@ public class RequestTaskDto {
         this.completed = completed;
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setId(Long id) {
+        this.id = id;
     }
 }
