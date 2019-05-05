@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @RestController
@@ -33,14 +34,20 @@ public class UserController {
 
     @PostMapping(produces = "application/json")
     @RequestMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody RequestUserDto user) {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody RequestUserDto user, HttpSession session) {
         try {
             User foundedUser = userService.findUserByName(user.getName());
+            session.setAttribute("userId", foundedUser.getId());
             return new ResponseEntity<>(foundedUser.getName(), HttpStatus.OK);
-            //todo: add session
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @PostMapping("/logout")
+    public String destroySession(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
     }
 
 }
