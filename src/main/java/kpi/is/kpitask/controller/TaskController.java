@@ -26,12 +26,21 @@ public class TaskController {
 
 
     @GetMapping
-    @RequestMapping("/all")
+    @RequestMapping("/")
     public @ResponseBody
-    Iterable<Task> getTasks() {
-        return taskService.getTasks();
+    Iterable<Task> getTasks(HttpSession session) {
+        User user = getUser(session.getAttribute("userId"));
+        return taskService.getTasks(user, true);
     }
 
+
+    @GetMapping
+    @RequestMapping("/archive")
+    public @ResponseBody
+    Iterable<Task> getArchivedTasks(HttpSession session) {
+        User user = getUser(session.getAttribute("userId"));
+        return taskService.getTasks(user, false);
+    }
 
     private User getUser(Object id) {
         if (id == null) throw new Error("User id not given");

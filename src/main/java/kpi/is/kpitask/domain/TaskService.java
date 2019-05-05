@@ -17,9 +17,10 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    //    todo: add ordered tasks
-    public Iterable<Task> getTasks() {
-        return taskRepository.findByUserAndCompletedAndDeadline(null, null, null);
+    public Iterable<Task> getTasks(User user, Boolean onlyNotCompleted) {
+        if (onlyNotCompleted)
+            return taskRepository.findByUserAndCompletedOrderByImportance(user.getId(), false);
+        return taskRepository.findByUser(user.getId());
     }
 
 
