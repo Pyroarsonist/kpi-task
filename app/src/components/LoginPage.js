@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {withRouter} from 'react-router-dom';
 
 
 class LoginPage extends Component {
@@ -6,49 +7,69 @@ class LoginPage extends Component {
     constructor(props) {
         super(props)
 
-        this.state = {name: '', password: ''}
+        this.state = {name: '', password: '', error: false}
 
-        // console.log(document.cookie)
+    }
+
+    getAlertBlock() {
+        return (<div className="mt-5 alert alert-danger" role="alert">
+            Login failed!
+        </div>)
     }
 
     render() {
         return (
-            <div className="text-center">
-                {/*<form className="form-signin">*/}
-                <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-                <label htmlFor="inputEmail" className="sr-only">Email address</label>
-                <input type="" id="inputEmail" className="form-control" placeholder="Email address" required
-                       autoFocus value={this.state.name} onChange={e => this.setState({name: e.target.value})}/>
-                <label htmlFor="inputPassword" className="sr-only">Password</label>
-                <input type="password" id="inputPassword" className="form-control" placeholder="Password"
-                       required value={this.state.password}
-                       onChange={e => this.setState({password: e.target.value})}/>
-                <div className="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" value="remember-me"/> Remember me
-                    </label>
-                </div>
-                <button onClick={async () => {
-                    try {
-                        await fetch('/api/user/login', {
-                            credentials: 'include',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            method: 'POST',
-                            body: JSON.stringify(this.state)
-                        })
-                    } catch (e) {
-                        console.error(e)
-                    }
-                }}
-                        className="btn btn-lg btn-primary btn-block">Sign in
-                </button>
+            <div style={{padding: "20em 0 0 0"}}>
+                <div className='d-flex justify-content-center'>
+                    <div className="text-center col-3">
+                        <form onSubmit={async (event) => {
+                            event.preventDefault();
+                            try {
+                                localStorage.removeItem("kpiTaskUserId")
+                                const data = await fetch('/api/user/login', {
+                                    credentials: 'include',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    method: 'POST',
+                                    body: JSON.stringify(this.state)
+                                })
+                                if (data.ok) {
+                                    const userId = +(await data.text())
+                                    localStorage.setItem("kpiTaskUserId", userId) // prosti gospod bog menya za eto
+                                    this.props.history.push("/tasks");
+                                } else {
+                                    this.setState({error: true})
+                                }
+                            } catch (e) {
+                                console.error(e)
+                            }
+                        }}>
+                            <h1 className="h3 mb-3 font-weight-normal">Sign in</h1>
+                            <div className="form-group">
+                                <label className="sr-only">Name</label>
+                                <input type="text" className="form-control" placeholder="Name" required
+                                       autoFocus value={this.state.name}
+                                       onChange={e => this.setState({name: e.target.value})}/>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="inputPassword" className="sr-only">Password</label>
+                                <input type="password" className="form-control" placeholder="Password"
+                                       required value={this.state.password}
+                                       onChange={e => this.setState({password: e.target.value})}/>
+                            </div>
+                            <button
+                                className="btn btn-lg btn-primary btn-block" type="submit">Log in
+                            </button>
 
-                {/*</form>*/}
+                        </form>
+                        {this.state.error && this.getAlertBlock()}
+
+                    </div>
+                </div>
             </div>
         )
     }
 }
 
-export default LoginPage;
+export default withRouter(LoginPage);

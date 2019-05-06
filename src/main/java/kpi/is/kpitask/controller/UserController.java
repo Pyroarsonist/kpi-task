@@ -46,7 +46,7 @@ public class UserController {
                 throw new Error("No such user");
             User user = foundedUser.get();
             session.setAttribute("userId", user.getId());
-            return new ResponseEntity<>("Logged in as " + user.getName(), HttpStatus.OK);
+            return new ResponseEntity<>(user.getId(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

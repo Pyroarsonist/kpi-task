@@ -1,17 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {BrowserRouter as Router, Route, Link} from "react-router-dom";
+import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import App from './App';
+import LoginPage from './components/LoginPage';
 import * as serviceWorker from './serviceWorker';
-import Home from './components/Home'
+import Home from './components/Home' // todo: rename
 
 
 const routing = (
     <Router>
-        <div>
-            <Route path="/" component={App}/>
+        <div className='container-fluid'>
+            <Route exact path="/" render={() => localStorage.getItem("kpiTaskUserId") ? (
+                <Redirect to="/tasks"/>
+            ) : (
+                <Redirect to="/login"/>
+            )}/>
+            <Route path="/login" component={LoginPage}/>
             <Route path="/tasks" component={Home}/>
         </div>
     </Router>
