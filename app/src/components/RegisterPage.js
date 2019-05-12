@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 
 
-class LoginPage extends Component{
+class RegisterPage extends Component{
     render() {
         return (
             <div className="container col-4">
-                <form className="form-signin">
-                    <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+                <form className="form-signup">
+                    <h1 className="h3 mb-3 font-weight-normal">Please sign up</h1>
+                    <label htmlFor="inputLogin" className="sr-only">Login</label>
+                    <input type="login" id="inputLogin" className="form-control mb-2" placeholder="Login" required autoFocus/>
                     <label htmlFor="inputEmail" className="sr-only">Email address</label>
-                    <input type="email" id="inputEmail" className="form-control mb-2" placeholder="Email address" required
-                           autoFocus />
+                    <input type="email" id="inputEmail" className="form-control mb-2" placeholder="Email address" required />
                     <label htmlFor="inputPassword" className="sr-only">Password</label>
                     <input type="password" id="inputPassword" className="form-control mb-2" placeholder="Password"
                            required />
@@ -18,14 +19,14 @@ class LoginPage extends Component{
                             <input type="checkbox" value="remember-me" /> Remember me
                         </label>
                     </div>
-                    <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                    <button className="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
                 </form>
                 <div className="text-center font-italic text-muted mt-2">
-                    Have no account yet? <a href="#">Sign up</a>
+                    Already registered? <a href="#">Log in</a>
                 </div>
             </div>
         )
     }
 }
 
-export default LoginPage;
+export default RegisterPage;
