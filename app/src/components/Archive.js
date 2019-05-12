@@ -45,7 +45,8 @@ class Archive extends Component {
         return (
             <div>
                 <h1>Archive Tasks</h1>
-                <div className="d-flex flex-wrap align-content-around"> {cards.map(card => card.completed ? <Card card={card}/> : null)}</div>
+                <div className="d-flex flex-wrap align-content-around"> {cards.map(card => card.completed ?
+                    <Card card={card}/> : null)}</div>
             </div>
         )
     }

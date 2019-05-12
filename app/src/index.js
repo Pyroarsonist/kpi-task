@@ -1,14 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import 'react-router-dom';
+import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css'
-import App from './App';
+import {userIsLoggedIn} from './tools'
 import * as serviceWorker from './serviceWorker';
+import Navbar from './components/Navbar'
+import Tasks from './components/Tasks'
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage'
+
+
+const routing = (
+    <Router>
+        <Navbar/>
+        <div className='container-fluid'>
+            <Route exact path="/" render={() => userIsLoggedIn() ? (
+                <Redirect to="/tasks"/>
+            ) : (
+                <Redirect to="/login"/>
+            )}/>
+            <Route path="/login" component={LoginPage}/>
+            <Route path="/tasks" component={Tasks}/>
+            <Route path="/register" component={RegisterPage}/>
+        </div>
+    </Router>
+)
 
 ReactDOM.render(
-    <App></App>,
+    routing,
     document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

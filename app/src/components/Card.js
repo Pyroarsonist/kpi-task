@@ -1,13 +1,11 @@
 import React, {Component} from 'react';
 import {Card as CardR, Button, CardHeader, CardFooter, CardBody, CardText} from 'reactstrap';
-//import cx from 'classnames'
 
 class Card extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {
-        }
+        this.state = {}
     }
 
     getImportanceClass(importance) {
@@ -25,16 +23,16 @@ class Card extends Component {
 
     render() {
         const {card} = this.props;
-        return(
+        return (
             <div className="col-4 mt-2">
-        <CardR>
-            <CardHeader className={this.getImportanceClass(card.importance)}>{card.title}</CardHeader>
-            <CardBody>
-                <CardText>{card.description}</CardText>
-                <Button>Выполнено</Button>
-            </CardBody>
-            <CardFooter className="text-muted">{card.deadline}</CardFooter>
-        </CardR>
+                <CardR>
+                    <CardHeader className={this.getImportanceClass(card.importance)}>{card.title}</CardHeader>
+                    <CardBody>
+                        <CardText>{card.description}</CardText>
+                        <Button>Выполнено</Button>
+                    </CardBody>
+                    <CardFooter className="text-muted">{card.deadline}</CardFooter>
+                </CardR>
             </div>
         )
     }
