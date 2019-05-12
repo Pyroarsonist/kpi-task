@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router-dom';
+import {withRouter, Link} from 'react-router-dom';
+import RegisterPage from "./RegisterPage";
 
 
 class LoginPage extends Component {
@@ -17,34 +18,36 @@ class LoginPage extends Component {
         </div>)
     }
 
+    handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            localStorage.removeItem("kpiTaskUserId")
+            const data = await fetch('/api/user/login', {
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(this.state)
+            })
+            if (data.ok) {
+                const userId = +(await data.text())
+                localStorage.setItem("kpiTaskUserId", userId) // prosti gospod bog menya za eto
+                this.props.history.push("/tasks");
+            } else {
+                this.setState({error: true})
+            }
+        } catch (e) {
+            console.error(e)
+        }
+    }
+
     render() {
         return (
             <div style={{padding: "20em 0 0 0"}}>
                 <div className='d-flex justify-content-center'>
                     <div className="text-center col-3">
-                        <form onSubmit={async (event) => {
-                            event.preventDefault();
-                            try {
-                                localStorage.removeItem("kpiTaskUserId")
-                                const data = await fetch('/api/user/login', {
-                                    credentials: 'include',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    method: 'POST',
-                                    body: JSON.stringify(this.state)
-                                })
-                                if (data.ok) {
-                                    const userId = +(await data.text())
-                                    localStorage.setItem("kpiTaskUserId", userId) // prosti gospod bog menya za eto
-                                    this.props.history.push("/tasks");
-                                } else {
-                                    this.setState({error: true})
-                                }
-                            } catch (e) {
-                                console.error(e)
-                            }
-                        }}>
+                        <form onSubmit={this.handleSubmit}>
                             <h1 className="h3 mb-3 font-weight-normal">Sign in</h1>
                             <div className="form-group">
                                 <label className="sr-only">Name</label>
@@ -64,7 +67,7 @@ class LoginPage extends Component {
 
                         </form>
                         <div className="text-center font-italic text-muted mt-2">
-                            Have no account yet? <a href="#">Sign up</a>
+                            Have no account yet? <Link to="/register" component={RegisterPage}>Sign up</Link>
                         </div>
                         {this.state.error && this.getAlertBlock()}
 

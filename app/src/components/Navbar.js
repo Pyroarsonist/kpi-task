@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
-class Navbar extends Component{
+class Navbar extends Component {
 
     constructor(props) {
         super(props)
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <nav className="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
                 <a className="navbar-brand" href="#">KPI-Task</a>
                 <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"

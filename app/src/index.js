@@ -4,21 +4,26 @@ import './index.css';
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css'
-import LoginPage from './components/LoginPage';
+import {userIsLoggedIn} from './tools'
 import * as serviceWorker from './serviceWorker';
-import Home from './components/Home' // todo: rename
+import Navbar from './components/Navbar'
+import Tasks from './components/Tasks'
+import LoginPage from './components/LoginPage';
+import RegisterPage from './components/RegisterPage'
 
 
 const routing = (
     <Router>
+        <Navbar/>
         <div className='container-fluid'>
-            <Route exact path="/" render={() => localStorage.getItem("kpiTaskUserId") ? (
+            <Route exact path="/" render={() => userIsLoggedIn() ? (
                 <Redirect to="/tasks"/>
             ) : (
                 <Redirect to="/login"/>
             )}/>
             <Route path="/login" component={LoginPage}/>
-            <Route path="/tasks" component={Home}/>
+            <Route path="/tasks" component={Tasks}/>
+            <Route path="/register" component={RegisterPage}/>
         </div>
     </Router>
 )
