@@ -14,22 +14,19 @@ class Navbar extends Component{
                         data-target="#navb" aria-expanded="true">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                <div id="navb" className="navbar-collapse collapse hide">
+                <div id="navb" className="navbar-collapse collapse hide ml-3">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Home</a>
+                            <a className="nav-link" href="#">Tasks</a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">History</a>
+                            <a className="nav-link" href="#">Archive</a>
                         </li>
                     </ul>
 
                     <ul className="nav navbar-nav ml-auto">
                         <li className="nav-item">
-                            <a className="nav-link" href="#"><span className="fa fa-user"></span> Sign Up</a>
-                        </li>
-                        <li className="nav-item">
-                            <a className="nav-link" href="#"><span className="fa fa-sign-in"></span> Login</a>
+                            <a className="nav-link" href="#"><span className="fa fa-sign-out mr-1"></span>Sign out</a>
                         </li>
                     </ul>
                 </div>

@@ -7,13 +7,11 @@ class Card extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            completed: this.props.completed
         }
     }
 
-    getImportanceClass() {
-        console.log(this.props.importance)
-        switch (this.props.importance) {
+    getImportanceClass(importance) {
+        switch (importance) {
             case "standard" :
                 return 'bg-primary';
             case "important" :
@@ -30,7 +28,7 @@ class Card extends Component {
         return(
             <div className="col-4 mt-2">
         <CardR>
-            <CardHeader className={this.getImportanceClass()}>{card.title}</CardHeader>
+            <CardHeader className={this.getImportanceClass(card.importance)}>{card.title}</CardHeader>
             <CardBody>
                 <CardText>{card.description}</CardText>
                 <Button>Выполнено</Button>
