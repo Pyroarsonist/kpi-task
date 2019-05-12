@@ -63,6 +63,9 @@ class LoginPage extends Component {
                             </button>
 
                         </form>
+                        <div className="text-center font-italic text-muted mt-2">
+                            Have no account yet? <a href="#">Sign up</a>
+                        </div>
                         {this.state.error && this.getAlertBlock()}
 
                     </div>

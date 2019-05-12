@@ -27,7 +27,7 @@ const cards = [
         "createdAt": "2019-05-05T13:16:23.396+0000",
         "deadline": "0001-05-05T13:30:08.633+0000",
         "importance": "standard",
-        "completed": false,
+        "completed": true,
     },
     {
         "id": 1,
@@ -40,20 +40,16 @@ const cards = [
     }
 ]
 
-class Home extends Component {
+class Archive extends Component {
     render() {
         return (
-
-            <>
-                <h1>Cards</h1>
-                <div className="d-flex flex-wrap align-content-around"> {cards.map(card => <Card card={card}/>)}</div>
-            </>
+            <div>
+                <h1>Archive Tasks</h1>
+                <div className="d-flex flex-wrap align-content-around"> {cards.map(card => card.completed ? <Card card={card}/> : null)}</div>
+            </div>
         )
     }
 }
 
 
-export default Home;
-
-
-export default Home;
+export default Archive;

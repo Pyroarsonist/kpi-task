@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css'
 import LoginPage from './components/LoginPage';
 import * as serviceWorker from './serviceWorker';
 import Home from './components/Home' // todo: rename
