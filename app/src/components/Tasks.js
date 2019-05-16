@@ -5,7 +5,9 @@ const cards = [
     {
         "id": 2,
         "title": "wow new fukcing title123",
-        "description": "description2",
+        "description": "description2asdasdsad" +
+            "asdasdasdasdasdasdasdasd" +
+            "asdasdasdasdasdasdasssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
         "createdAt": "2019-05-05T12:38:25.843+0000",
         "deadline": "2011-05-05T12:30:08.633+0000",
         "importance": "vital",
@@ -41,11 +43,20 @@ const cards = [
 ]
 
 class Tasks extends Component {
+
+    addTask=()=>{
+        //delaem
+
+    }
+
     render() {
         return (
             <>
+                <div className='row'>
                 <h1>Tasks</h1>
-                <div className="d-flex flex-wrap align-content-around"> {cards.map(card => card.completed ? null : <Card card={card}/>)}</div>
+                    <button className="float-right" onClick={this.addTask}>Add task</button>
+                </div>
+                <div className="d-flex flex-wrap align-content-around"> {cards.map(card => <Card card={card}/>)}</div>
             </>
         )
     }
