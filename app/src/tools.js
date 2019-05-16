@@ -1,7 +1,7 @@
-const userIdKey = 'kpiTaskUserId'
+const userKey = 'kpiTaskUser'
 
-const userIsLoggedIn = () => {
-    return !!localStorage.getItem(userIdKey)
+const getUserName = () => {
+    return localStorage.getItem(userKey)
 }
 
 const logout = async () => {
@@ -12,7 +12,7 @@ const logout = async () => {
         },
         method: 'POST',
     })
-    return localStorage.removeItem(userIdKey)
+    return localStorage.removeItem(userKey)
 }
 
-export {userIsLoggedIn, logout}
+export {getUserName, logout}

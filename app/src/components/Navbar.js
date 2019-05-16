@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
-import {userIsLoggedIn,logout} from '../tools'
+import {connect} from 'react-redux'
+import {removeUsername} from '../actions'
+
+import {logout} from '../tools'
+
 
 class Navbar extends Component {
 
 
     render() {
+        const name = this.props.name
         return (
             <nav className="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
                 <Link to="/" className="navbar-brand">KPI-Task</Link>
@@ -13,7 +18,7 @@ class Navbar extends Component {
                         data-target="#navb" aria-expanded="true">
                     <span className="navbar-toggler-icon"></span>
                 </button>
-                {userIsLoggedIn() && <div id="navb" className="navbar-collapse collapse hide ml-3">
+                {name && <div id="navb" className="navbar-collapse collapse hide ml-3">
                     <ul className="navbar-nav">
                         <li className="nav-item">
                             <Link to="/tasks" className="nav-link">Tasks</Link>
@@ -23,8 +28,15 @@ class Navbar extends Component {
                         </li>
                     </ul>
                     <ul className="nav navbar-nav ml-auto">
+                        <li className='nav-item text-white my-auto mr-2'>
+                            Hello, {name}!
+                        </li>
                         <li className="nav-item">
-                            <Link to="/login" className="nav-link" onClick={() => logout()}><span className="fa fa-sign-out mr-1"></span>Sign out</Link>
+                            <Link to="/login" className="nav-link" onClick={async () => {
+                                this.props.removeUserName()
+                                await logout();
+                            }}><span
+                                className="fa fa-sign-out mr-1"></span>Sign out</Link>
                         </li>
                     </ul>
                 </div>}
@@ -34,4 +46,22 @@ class Navbar extends Component {
     }
 }
 
-export default Navbar;
+const mapStateToProps = (state) => {
+    return {
+        name: state.userName
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        removeUserName: () => {
+            dispatch(removeUsername())
+        }
+    }
+}
+
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Navbar)

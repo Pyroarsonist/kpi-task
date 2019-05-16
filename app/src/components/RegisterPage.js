@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
-import {Link} from "react-router-dom";
+import {withRouter,Link} from "react-router-dom";
+import {connect} from "react-redux";
+import {compose} from 'redux'
+import {setUsername} from "../actions";
 
 class RegisterPage extends Component {
 
@@ -19,7 +22,7 @@ class RegisterPage extends Component {
     handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            localStorage.removeItem("kpiTaskUserId")
+            localStorage.removeItem("kpiTaskUser")
             const data = await fetch('/api/user/register', {
                 credentials: 'include',
                 headers: {
@@ -29,8 +32,9 @@ class RegisterPage extends Component {
                 body: JSON.stringify(this.state)
             })
             if (data.ok) {
-                const userId = +(await data.text())
-                localStorage.setItem("kpiTaskUserId", userId) // prosti gospod bog menya za eto
+                const userName = await data.text()
+                localStorage.setItem("kpiTaskUser", userName) // prosti gospod bog menya za eto
+                this.props.setUsername(userName)
                 this.props.history.push("/tasks");
             } else {
                 this.setState({error: true})
@@ -73,4 +77,15 @@ class RegisterPage extends Component {
     }
 }
 
-export default RegisterPage;
+const mapDispatchToProps = dispatch => {
+    return {
+        setUsername: (name) => {
+            dispatch(setUsername(name))
+        }
+    }
+}
+
+export default compose(withRouter, connect(
+    null,
+    mapDispatchToProps
+))(RegisterPage)

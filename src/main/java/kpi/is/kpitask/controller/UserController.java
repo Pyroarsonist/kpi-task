@@ -31,7 +31,7 @@ public class UserController {
                 throw new Error("User with this name already exists");
             User createdUser = userService.createUser(user.getName(), user.getPassword());
             session.setAttribute("userId", createdUser.getId());
-            return new ResponseEntity<>(createdUser.getId(), HttpStatus.OK);
+            return new ResponseEntity<>(createdUser.getName(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -46,7 +46,7 @@ public class UserController {
                 throw new Error("No such user");
             User user = foundedUser.get();
             session.setAttribute("userId", user.getId());
-            return new ResponseEntity<>(user.getId(), HttpStatus.OK);
+            return new ResponseEntity<>(user.getName(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
