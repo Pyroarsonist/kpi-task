@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card as CardR, Button, CardHeader, CardFooter, CardBody, CardText, Input} from 'reactstrap';
 import cx from 'classnames'
+import DatePicker from 'react-datepicker'
 
 class Card extends Component {
 
@@ -71,10 +72,8 @@ class Card extends Component {
         }
     }
 
-
-    render() {
-        const {card} = this.props;
-        const date = new Date(Date.parse(card.deadline))
+    getDate = () => {
+        const date = new Date(Date.parse(this.state.deadline))
         const dateOptions = {
             year: 'numeric',
             month: 'long',
@@ -85,6 +84,12 @@ class Card extends Component {
             minute: 'numeric',
             second: 'numeric'
         };
+        return date.toLocaleString('en-US', dateOptions)
+    }
+
+
+    render() {
+        const {card} = this.props;
 
         return (
             <div className={cx('mt-2', this.props.isCreating ? "col-12" : "col-4")}>
@@ -143,7 +148,22 @@ class Card extends Component {
                         }
                     </CardBody>
                     <CardFooter className="text-muted">
-                        {date.toLocaleString('en-US', dateOptions)}
+                        {this.state.isEdit ? <div className='container-fluid'>
+                            <DatePicker
+                                className="form-control"
+                                selected={new Date(this.state.deadline)}
+                                onChange={val =>
+                                    this.setState({deadline: val})
+                                }
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={15}
+                                dateFormat="MMMM d, yyyy h:mm aa"
+                                timeCaption="time"
+                            />
+
+
+                        </div> : this.getDate()}
                     </CardFooter>
                 </CardR>
             </div>
