@@ -22,7 +22,8 @@ const routing = (
                 <Redirect to="/login"/>
             )}/>
             <Route path="/login" component={LoginPage}/>
-            <Route path="/tasks" component={Tasks}/>
+            <Route path="/tasks" render={(props) => <Tasks {...props} archived={false}/>}/>
+            <Route path="/archive" render={(props) => <Tasks {...props} archived={true}/>}/>
             <Route path="/register" component={RegisterPage}/>
         </div>
     </Router>
