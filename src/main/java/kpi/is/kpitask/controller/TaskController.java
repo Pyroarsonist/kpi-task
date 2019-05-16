@@ -30,7 +30,7 @@ public class TaskController {
     public @ResponseBody
     Iterable<Task> getTasks(HttpSession session) {
         User user = getUser(session.getAttribute("userId"));
-        return taskService.getTasks(user, true);
+        return taskService.getTasks(user, false);
     }
 
 
@@ -39,7 +39,7 @@ public class TaskController {
     public @ResponseBody
     Iterable<Task> getArchivedTasks(HttpSession session) {
         User user = getUser(session.getAttribute("userId"));
-        return taskService.getTasks(user, false);
+        return taskService.getTasks(user, true);
     }
 
     private User getUser(Object id) {

@@ -1,21 +1,36 @@
 import React, {Component} from 'react';
+import {
+    Button,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ModalHeader
+} from 'reactstrap';
 import Card from "./Card";
 
 
 class Tasks extends Component {
 
 
-
-
     constructor(props) {
         super(props)
 
         this.state = {
-            cards: []
+            cards: [],
+            modalIsOpen: false
         }
     }
 
-    async componentDidMount() {
+    openModal = () => {
+        this.setState({modalIsOpen: true});
+    }
+
+
+    closeModal = () => {
+        this.setState({modalIsOpen: false});
+    }
+
+    refetch = async () => {
         try {
             const url = this.props.archived ? '/api/tasks/archive/' : '/api/tasks/'
             const data = await fetch(url, {
@@ -36,22 +51,77 @@ class Tasks extends Component {
         }
     }
 
-    addTask=()=>{
-        //delaem
-
+    async componentDidMount() {
+        await this.refetch()
     }
+
+    getDefaultCard = () => {
+        return {
+            "title": "",
+            "description": "",
+            "deadline": new Date(),
+            "importance": "standard",
+            "completed": false,
+        }
+    }
+
+    saveCard = async () => {
+        const {state: cardFromState} = this.refs.createdCard;
+        try {
+            const card = {
+                deadline: cardFromState.deadline.toISOString(),
+                description: cardFromState.description,
+                importance: cardFromState.importance,
+                title: cardFromState.title
+            }
+            await fetch('/api/tasks/create/', {
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify(card)
+            })
+        } catch (e) {
+            console.error(e)
+        }
+        this.closeModal()
+    }
+
 
     render() {
         return (
             <>
                 <div className='row'>
-                <h1>Tasks</h1>
-                    <button className="float-right" onClick={this.addTask}>Add task</button>
+                    <h1>Tasks</h1>
+                    <div className="float-right">
+                        <Button onClick={this.openModal}>Add task</Button>
+                        <Modal
+                            isOpen={this.state.modalIsOpen}
+                        >
+                            <ModalHeader>
+                                <div>Creating new task</div>
+                            </ModalHeader>
+                            <ModalBody>
+                                <div className='container-fluid'>
+                                    <Card card={this.getDefaultCard()} ref="createdCard" isCreating/>
+                                </div>
+                            </ModalBody>
+                            <ModalFooter>
+                                <button className="btn btn-secondary" onClick={this.closeModal}>
+                                    Close
+                                </button>
+                                <button className="btn-primary btn" onClick={this.saveCard}>
+                                    Save Changes
+                                </button>
+                            </ModalFooter>
+
+                        </Modal>
+                    </div>
                 </div>
                 {this.state.cards.length ? <div
                     className="d-flex flex-wrap align-content-around"> {this.state.cards.map(card =>
                     <Card card={card} key={card.id}/>)}</div> : <div> No tasks available</div>}
-
             </>
         )
     }

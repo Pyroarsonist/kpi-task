@@ -5,10 +5,9 @@ class Card extends Component {
 
     constructor(props) {
         super(props);
-        console.log(this.props)
         this.state = {
             ...this.props.card,
-            isEdit: false,
+            isEdit: this.props.isCreating,
         }
     }
 
@@ -26,15 +25,12 @@ class Card extends Component {
         }
     }
 
-    deleteCard(){
-        //todo
-}
 
-    archiveCard(){
+    archiveCard() {
         //todo
     }
 
-    saveChanges(){
+    saveChanges() {
         //todo
     }
 
@@ -60,7 +56,7 @@ class Card extends Component {
                         {this.state.isEdit ?
                             <input type="text" value={this.state.title} className="w-100"
                                    onChange={(e) => this.setState({
-                                           title: e.target.value
+                                       title: e.target.value
                                    })}/> : card.title}
                     </CardHeader>
                     <CardBody>
@@ -68,31 +64,29 @@ class Card extends Component {
                             {this.state.isEdit ?
                                 <textarea className="w-100" value={this.state.description}
                                           onChange={(e) => this.setState({
-                                                  description: e.target.value
+                                              description: e.target.value
                                           })
                                           }></textarea> :
                                 card.description}
                         </CardText>
                         {this.state.isEdit ?
                             <>
-                                <Button className="bg-danger" onClick={()=> this.setState({
-                                    isEdit: false
-                                })}>
+                                {!this.props.isCreating && <><Button className="bg-danger"
+                                                                     onClick={() => this.setState({
+                                                                         isEdit: false
+                                                                     })}>
                                     Cancel
                                 </Button>
-                                <Button className="float-right bg-success" onClick={this.saveChanges()}>
-                                    Save
-                                </Button>
+                                    <Button className="float-right bg-success" onClick={this.saveChanges()}>
+                                        Save
+                                    </Button></>}
                             </> :
                             <>
                                 <Button className="mr-3 bg-success" onClick={this.archiveCard()}>
                                     To complete
                                 </Button>
-                                < Button className="bg-danger" onClick={this.deleteCard()}>
-                                    Delete
-                                </Button>
-                                <Button className="float-right bg-primary"  onClick={()=>this.setState({
-                                    isEdit : true
+                                <Button className="float-right bg-primary" onClick={() => this.setState({
+                                    isEdit: true
                                 })}>
                                     Edit
                                 </Button>

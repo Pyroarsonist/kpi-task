@@ -17,8 +17,8 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public Iterable<Task> getTasks(User user, Boolean onlyNotCompleted) {
-        return taskRepository.findByUserAndCompletedOrderByImportance(user.getId(), onlyNotCompleted);
+    public Iterable<Task> getTasks(User user, Boolean completed) {
+        return taskRepository.findByUserAndCompletedOrderByImportance(user.getId(), completed);
     }
 
 
