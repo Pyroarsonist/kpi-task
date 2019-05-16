@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {withRouter, Link} from 'react-router-dom';
-import RegisterPage from "./RegisterPage";
 
 
 class LoginPage extends Component {
@@ -44,8 +43,7 @@ class LoginPage extends Component {
 
     render() {
         return (
-            <div style={{padding: "20em 0 0 0"}}>
-                <div className='d-flex justify-content-center'>
+                <div className='row align-items-center h-100 justify-content-center'>
                     <div className="text-center col-3">
                         <form onSubmit={this.handleSubmit}>
                             <h1 className="h3 mb-3 font-weight-normal">Sign in</h1>
@@ -67,13 +65,13 @@ class LoginPage extends Component {
 
                         </form>
                         <div className="text-center font-italic text-muted mt-2">
-                            Have no account yet? <Link to="/register" component={RegisterPage}>Sign up</Link>
+                            Have no account yet? <Link to="/register">Sign up</Link>
                         </div>
                         {this.state.error && this.getAlertBlock()}
 
                     </div>
                 </div>
-            </div>
+
         )
     }
 }

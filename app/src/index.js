@@ -15,7 +15,7 @@ import RegisterPage from './components/RegisterPage'
 const routing = (
     <Router>
         <Navbar/>
-        <div className='container-fluid'>
+        <div className='container-fluid h-100'>
             <Route exact path="/" render={() => userIsLoggedIn() ? (
                 <Redirect to="/tasks"/>
             ) : (
