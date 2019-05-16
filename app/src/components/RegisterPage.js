@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
+
 class RegisterPage extends Component {
 
     constructor(props) {
@@ -11,7 +12,7 @@ class RegisterPage extends Component {
 
     getAlertBlock() {
         return (<div className="mt-5 alert alert-danger" role="alert">
-            Login failed!
+            Register failed! Perhaps, name is already used
         </div>)
     }
 
@@ -44,7 +45,7 @@ class RegisterPage extends Component {
             <div className='row align-items-center h-100 justify-content-center'>
                 <div className="text-center col-3">
                     <form onSubmit={this.handleSubmit}>
-                        <h1 className="h3 mb-3 font-weight-normal">Sign up</h1>
+                        <h1 className="h3 mb-3 font-weight-normal">Register</h1>
                         <div className="form-group">
                             <label className="sr-only">Name</label>
                             <input type="text" className="form-control" placeholder="Name" required
@@ -58,7 +59,7 @@ class RegisterPage extends Component {
                                    onChange={e => this.setState({password: e.target.value})}/>
                         </div>
                         <button
-                            className="btn btn-lg btn-primary btn-block" type="submit">Sign up
+                            className="btn btn-lg btn-primary btn-block" type="submit">Create new account
                         </button>
 
                     </form>
