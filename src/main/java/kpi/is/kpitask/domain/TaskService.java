@@ -18,9 +18,7 @@ public class TaskService {
     private TaskRepository taskRepository;
 
     public Iterable<Task> getTasks(User user, Boolean onlyNotCompleted) {
-        if (onlyNotCompleted)
-            return taskRepository.findByUserAndCompletedOrderByImportance(user.getId(), false);
-        return taskRepository.findByUser(user.getId());
+        return taskRepository.findByUserAndCompletedOrderByImportance(user.getId(), onlyNotCompleted);
     }
 
 
