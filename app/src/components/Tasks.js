@@ -86,15 +86,16 @@ class Tasks extends Component {
             console.error(e)
         }
         this.closeModal()
+        await this.refetch()
     }
 
 
     render() {
         return (
             <>
-                <div className='row'>
-                    <h1>Tasks</h1>
-                    <div className="float-right">
+                <div className='row pt-4'>
+                    <h1 className='pl-3'>Tasks</h1>
+                    <div className="ml-auto pr-5">
                         <Button onClick={this.openModal}>Add task</Button>
                         <Modal
                             isOpen={this.state.modalIsOpen}
@@ -121,7 +122,7 @@ class Tasks extends Component {
                 </div>
                 {this.state.cards.length ? <div
                     className="d-flex flex-wrap align-content-around"> {this.state.cards.map(card =>
-                    <Card card={card} key={card.id}/>)}</div> : <div> No tasks available</div>}
+                    <Card card={card} key={card.id} refetch={this.refetch}/>)}</div> : <div> No tasks available</div>}
             </>
         )
     }
