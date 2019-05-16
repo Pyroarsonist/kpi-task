@@ -1,5 +1,11 @@
-const userIsLoggedIn=()=>{
-    return !!localStorage.getItem("kpiTaskUserId")
+const userIdKey = 'kpiTaskUserId'
+
+const userIsLoggedIn = () => {
+    return !!localStorage.getItem(userIdKey)
 }
 
-export {userIsLoggedIn}
+const logout = () => {
+    return localStorage.removeItem(userIdKey)
+}
+
+export {userIsLoggedIn, logout}

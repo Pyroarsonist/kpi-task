@@ -1,10 +1,9 @@
 import React, {Component} from 'react';
+import {Link} from 'react-router-dom'
+import {logout} from "../tools"
 
 class Navbar extends Component {
 
-    constructor(props) {
-        super(props)
-    }
 
     render() {
         return (
@@ -26,7 +25,9 @@ class Navbar extends Component {
 
                     <ul className="nav navbar-nav ml-auto">
                         <li className="nav-item">
-                            <a className="nav-link" href="#"><span className="fa fa-sign-out mr-1"></span>Sign out</a>
+                            <Link to='/' className="nav-link" onClick={() => logout()}><span
+                                className="fa fa-sign-out mr-1"/>Sign
+                                out</Link>
                         </li>
                     </ul>
                 </div>
