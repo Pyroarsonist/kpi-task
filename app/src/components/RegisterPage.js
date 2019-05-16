@@ -19,7 +19,7 @@ class RegisterPage extends Component {
         event.preventDefault();
         try {
             localStorage.removeItem("kpiTaskUserId")
-            const data = await fetch('/api/user/login', {
+            const data = await fetch('/api/user/register', {
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json'
@@ -58,12 +58,12 @@ class RegisterPage extends Component {
                                    onChange={e => this.setState({password: e.target.value})}/>
                         </div>
                         <button
-                            className="btn btn-lg btn-primary btn-block" type="submit">Log in
+                            className="btn btn-lg btn-primary btn-block" type="submit">Sign up
                         </button>
 
                     </form>
                     <div className="text-center font-italic text-muted mt-2">
-                        Have no account yet? <Link to="/login">Sign up</Link>
+                        Have account? <Link to="/login">Sign in</Link>
                     </div>
                     {this.state.error && this.getAlertBlock()}
                 </div>

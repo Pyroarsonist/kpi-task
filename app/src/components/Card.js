@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card as CardR, Button, CardHeader, CardFooter, CardBody, CardText, Input} from 'reactstrap';
-import cx from 'classnames'
+import cx from 'classnames';
+import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker'
 
 class Card extends Component {
