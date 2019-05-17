@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Card as CardR, Button, CardHeader, CardFooter, CardBody, CardText, Input} from 'reactstrap';
-import cx from 'classnames'
+import cx from 'classnames';
+import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker'
 
 class Card extends Component {
@@ -92,7 +93,7 @@ class Card extends Component {
         const {card} = this.props;
 
         return (
-            <div className={cx('mt-2', this.props.isCreating ? "col-12" : "col-4")}>
+            <div className={cx('mt-2 mb-3', this.props.isCreating ? "col-12" : "col-4")}>
                 <CardR>
                     <CardHeader className={this.getImportanceClass(card.importance)}>
                         {this.state.isEdit ?
@@ -112,10 +113,10 @@ class Card extends Component {
                                           }></textarea> :
                                 card.description}
                         </CardText>
-                        {this.props.isCreating &&
-                        <select value={this.state.value} onChange={(e) => this.setState({
+                        {this.state.isEdit &&
+                        <select value={this.state.importance} onChange={(e) => this.setState({
                             importance: e.target.value
-                        })} className="form-control">
+                        })} className={cx("form-control", !this.props.isCreating && 'mb-4')}>
                             <option value="standard">Standard</option>
                             <option value="important">Important</option>
                             <option value="vital">Vital</option>
@@ -123,7 +124,8 @@ class Card extends Component {
 
 
                         }
-                        {this.state.isEdit ?
+                        {this.state.completed ? <></> :
+                         this.state.isEdit ?
                             <>
                                 {!this.props.isCreating && <><Button className="bg-danger"
                                                                      onClick={() => this.setState({

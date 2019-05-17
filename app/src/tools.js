@@ -1,11 +1,18 @@
-const userIdKey = 'kpiTaskUserId'
+const userKey = 'kpiTaskUser'
 
-const userIsLoggedIn = () => {
-    return !!localStorage.getItem(userIdKey)
+const getUserName = () => {
+    return localStorage.getItem(userKey)
 }
 
-const logout = () => {
-    return localStorage.removeItem(userIdKey)
+const logout = async () => {
+    await fetch('/api/user/logout', {
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+    })
+    return localStorage.removeItem(userKey)
 }
 
-export {userIsLoggedIn, logout}
+export {getUserName, logout}

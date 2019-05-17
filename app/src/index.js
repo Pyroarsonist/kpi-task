@@ -2,31 +2,37 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
+import {Provider} from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css'
-import {userIsLoggedIn} from './tools'
 import * as serviceWorker from './serviceWorker';
 import Navbar from './components/Navbar'
 import Tasks from './components/Tasks'
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage'
+import createStore from './createReduxStore'
+
+
+const store = createStore()
 
 
 const routing = (
-    <Router>
-        <Navbar/>
-        <div className='container-fluid h-100'>
-            <Route exact path="/" render={() => userIsLoggedIn() ? (
-                <Redirect to="/tasks"/>
-            ) : (
-                <Redirect to="/login"/>
-            )}/>
-            <Route path="/login" component={LoginPage}/>
-            <Route path="/tasks" render={(props) => <Tasks {...props} archived={false}/>}/>
-            <Route path="/archive" render={(props) => <Tasks {...props} archived={true}/>}/>
-            <Route path="/register" component={RegisterPage}/>
-        </div>
-    </Router>
+    <Provider store={store}>
+        <Router>
+            <Navbar/>
+            <div className='container-fluid h-100'>
+                <Route exact path="/" render={() => store.getState().userName ? (
+                    <Redirect to="/tasks"/>
+                ) : (
+                    <Redirect to="/login"/>
+                )}/>
+                <Route path="/login" component={LoginPage}/>
+                <Route path="/tasks" render={(props) => <Tasks {...props} archived={false}/>}/>
+                <Route path="/archive" render={(props) => <Tasks {...props} archived={true}/>}/>
+                <Route path="/register" component={RegisterPage}/>
+            </div>
+        </Router>
+    </Provider>
 )
 
 ReactDOM.render(
