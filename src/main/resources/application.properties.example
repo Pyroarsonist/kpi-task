@@ -3,7 +3,8 @@ spring.data.rest.base-path=/api
 
 spring.jpa.properties.hibernate.jdbc.lob.non_contextual_creation=true
 
-
+spring.jpa.database=POSTGRESQL
+spring.datasource.platform=postgres
 
 ## Spring DATASOURCE (DataSourceAutoConfiguration & DataSourceProperties)
 spring.datasource.url=jdbc:postgresql://localhost:5432/kpitask
@@ -15,3 +16,7 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.PostgreSQLDialec
 
 # Hibernate ddl auto (create, create-drop, validate, update)
 spring.jpa.hibernate.ddl-auto = update
+
+# redis
+spring.redis.host=localhost
+spring.redis.port=6379
