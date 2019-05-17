@@ -113,10 +113,10 @@ class Card extends Component {
                                           }></textarea> :
                                 card.description}
                         </CardText>
-                        {this.props.isCreating &&
-                        <select value={this.state.value} onChange={(e) => this.setState({
+                        {this.state.isEdit &&
+                        <select value={this.state.importance} onChange={(e) => this.setState({
                             importance: e.target.value
-                        })} className="form-control">
+                        })} className={cx("form-control", !this.props.isCreating && 'mb-4')}>
                             <option value="standard">Standard</option>
                             <option value="important">Important</option>
                             <option value="vital">Vital</option>
