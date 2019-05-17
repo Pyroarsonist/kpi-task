@@ -93,7 +93,7 @@ class Card extends Component {
         const {card} = this.props;
 
         return (
-            <div className={cx('mt-2', this.props.isCreating ? "col-12" : "col-4")}>
+            <div className={cx('mt-2 mb-3', this.props.isCreating ? "col-12" : "col-4")}>
                 <CardR>
                     <CardHeader className={this.getImportanceClass(card.importance)}>
                         {this.state.isEdit ?
@@ -124,7 +124,8 @@ class Card extends Component {
 
 
                         }
-                        {this.state.isEdit ?
+                        {this.state.completed ? <></> :
+                         this.state.isEdit ?
                             <>
                                 {!this.props.isCreating && <><Button className="bg-danger"
                                                                      onClick={() => this.setState({
