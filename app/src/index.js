@@ -4,7 +4,8 @@ import './index.css';
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import {Provider} from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'font-awesome/css/font-awesome.min.css'
+import 'font-awesome/css/font-awesome.min.css';
+import 'react-datepicker/dist/react-datepicker.css';
 import * as serviceWorker from './serviceWorker';
 import Navbar from './components/Navbar'
 import Tasks from './components/Tasks'
@@ -13,14 +14,14 @@ import RegisterPage from './components/RegisterPage'
 import createStore from './createReduxStore'
 
 
-const store = createStore()
+const store = createStore();
 
 
 const routing = (
     <Provider store={store}>
         <Router>
             <Navbar/>
-            <div className='container-fluid h-100'>
+            <div className='container-fluid h-75'>
                 <Route exact path="/" render={() => store.getState().userName ? (
                     <Redirect to="/tasks"/>
                 ) : (
@@ -33,7 +34,7 @@ const routing = (
             </div>
         </Router>
     </Provider>
-)
+);
 
 ReactDOM.render(
     routing,

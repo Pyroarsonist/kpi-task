@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import {Card as CardR, Button, CardHeader, CardFooter, CardBody, CardText, Input} from 'reactstrap';
+import {Card as CardR, CardHeader, CardFooter, CardBody, CardText, Input} from 'reactstrap';
 import cx from 'classnames';
-import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker'
 
 class Card extends Component {
@@ -15,18 +14,18 @@ class Card extends Component {
     }
 
 
-    getImportanceClass(importance) {
+    getImportanceClass = (importance) => {
         switch (importance) {
             case "standard" :
-                return 'bg-primary';
+                return 'rgba(204, 204, 204, 0.7)';
             case "important" :
-                return 'bg-warning';
+                return 'rgba(255, 255, 0, 0.7)';
             case "vital" :
-                return 'bg-danger';
+                return 'rgba(255, 0, 0, 0.7)';
             default:
-                return 'bg-secondary'
+                return 'rgba(255, 255, 255, 1)';
         }
-    }
+    };
 
     saveChanges = async () => {
         try {
@@ -36,7 +35,7 @@ class Card extends Component {
                 description: this.state.description,
                 importance: this.state.importance,
                 title: this.state.title
-            }
+            };
             await fetch('/api/tasks/edit/', {
                 credentials: 'include',
                 headers: {
@@ -44,20 +43,20 @@ class Card extends Component {
                 },
                 method: 'POST',
                 body: JSON.stringify(card)
-            })
-            this.setState({isEdit: false})
+            });
+            this.setState({isEdit: false});
             await this.props.refetch()
         } catch (e) {
             console.error(e)
         }
-    }
+    };
 
     archiveCard = async () => {
         try {
             const card = {
                 id: this.state.id,
                 completed: true,
-            }
+            };
             await fetch('/api/tasks/edit/', {
                 credentials: 'include',
                 headers: {
@@ -65,16 +64,16 @@ class Card extends Component {
                 },
                 method: 'POST',
                 body: JSON.stringify(card)
-            })
-            this.setState({isEdit: false})
+            });
+            this.setState({isEdit: false});
             await this.props.refetch()
         } catch (e) {
             console.error(e)
         }
-    }
+    };
 
     getDate = () => {
-        const date = new Date(Date.parse(this.state.deadline))
+        const date = new Date(Date.parse(this.state.deadline));
         const dateOptions = {
             year: 'numeric',
             month: 'long',
@@ -86,7 +85,7 @@ class Card extends Component {
             second: 'numeric'
         };
         return date.toLocaleString('en-US', dateOptions)
-    }
+    };
 
 
     render() {
@@ -95,7 +94,7 @@ class Card extends Component {
         return (
             <div className={cx('mt-2 mb-3', this.props.isCreating ? "col-12" : "col-4")}>
                 <CardR>
-                    <CardHeader className={this.getImportanceClass(card.importance)}>
+                    <CardHeader style={{background: this.getImportanceClass(card.importance)}}>
                         {this.state.isEdit ?
                             <Input type="text" placeholder='Title' value={this.state.title} className="w-100"
                                    onChange={(e) => this.setState({
@@ -127,25 +126,25 @@ class Card extends Component {
                         {this.state.completed ? <></> :
                          this.state.isEdit ?
                             <>
-                                {!this.props.isCreating && <><Button className="bg-danger"
+                                {!this.props.isCreating && <><button className="btn btn-outline-danger"
                                                                      onClick={() => this.setState({
                                                                          isEdit: false
                                                                      })}>
                                     Cancel
-                                </Button>
-                                    <Button className="float-right bg-success" onClick={this.saveChanges}>
+                                </button>
+                                    <button className="btn btn-outline-success float-right" onClick={this.saveChanges}>
                                         Save
-                                    </Button></>}
+                                    </button></>}
                             </> :
                             <>
-                                <Button className="mr-3 bg-success" onClick={this.archiveCard}>
+                                <button className="btn btn-outline-success mr-3 " onClick={this.archiveCard}>
                                     Archive
-                                </Button>
-                                <Button className="float-right bg-primary" onClick={() => this.setState({
+                                </button>
+                                <button className="btn btn-outline-primary float-right" onClick={() => this.setState({
                                     isEdit: true
                                 })}>
                                     Edit
-                                </Button>
+                                </button>
                             </>
                         }
                     </CardBody>
