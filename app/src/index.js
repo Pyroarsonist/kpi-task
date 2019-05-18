@@ -22,8 +22,7 @@ const routing = (
     <Provider store={store}>
         <Router>
             <Navbar/>
-            <main className='flex-shrink-0'>
-                <div className='container-fluid'>
+            <main className='container-fluid h-75'>
                 <Route exact path="/" render={() => store.getState().userName ? (
                     <Redirect to="/tasks"/>
                 ) : (
@@ -33,7 +32,6 @@ const routing = (
                 <Route path="/tasks" render={(props) => <Tasks {...props} archived={false}/>}/>
                 <Route path="/archive" render={(props) => <Tasks {...props} archived={true}/>}/>
                 <Route path="/register" component={RegisterPage}/>
-                </div>
             </main>
             <Footer/>
         </Router>
