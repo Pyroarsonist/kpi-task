@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {
-    Button,
     Modal,
     ModalBody,
     ModalFooter,
@@ -105,9 +104,10 @@ class Tasks extends Component {
         return (
             <>
                 <div className='row pt-4'>
-                    <h1 className='pl-3'>Tasks</h1>
-                    <div className="ml-auto pr-5">
-                        <Button onClick={this.openModal}>Add task</Button>
+                    <h1 className='pl-3 pt-1'>Tasks</h1>
+                    <div className="ml-auto pr-5 mt-1">
+                        <button className="btn btn-outline-primary btn-lg" onClick={this.openModal}>Add task</button>
+                    </div>
                         <Modal
                             isOpen={this.state.modalIsOpen}
                         >
@@ -129,11 +129,16 @@ class Tasks extends Component {
                             </ModalFooter>
 
                         </Modal>
-                    </div>
                 </div>
                 {this.state.cards.length ? <div
                     className="d-flex flex-wrap align-content-around"> {this.state.cards.map(card =>
-                    <Card card={card} key={card.id} refetch={this.refetch}/>)}</div> : <div> No tasks available</div>}
+                    <Card card={card} key={card.id} refetch={this.refetch}/>)}</div> :
+                    <div className='row align-items-center h-50 justify-content-center'>
+                        <div className="text-center col-3 mt-5">
+                            <h2 className="h3 mb-3 font-weight-normal">No tasks available</h2>
+                        </div>
+                    </div>}
+
             </>
         )
     }

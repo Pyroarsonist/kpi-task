@@ -4,7 +4,7 @@ import './index.css';
 import {BrowserRouter as Router, Route, Redirect} from "react-router-dom";
 import {Provider} from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'font-awesome/css/font-awesome.min.css'
+import 'font-awesome/css/font-awesome.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import * as serviceWorker from './serviceWorker';
 import Navbar from './components/Navbar'
@@ -15,7 +15,7 @@ import RegisterPage from './components/RegisterPage'
 import createStore from './createReduxStore'
 
 
-const store = createStore()
+const store = createStore();
 
 
 const routing = (
@@ -38,7 +38,7 @@ const routing = (
             <Footer/>
         </Router>
     </Provider>
-)
+);
 
 ReactDOM.render(
     routing,
