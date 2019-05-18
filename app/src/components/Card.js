@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Card as CardR, Button, CardHeader, CardFooter, CardBody, CardText, Input} from 'reactstrap';
 import cx from 'classnames';
-import 'react-datepicker/dist/react-datepicker.css';
 import DatePicker from 'react-datepicker'
 
 class Card extends Component {
@@ -56,7 +55,7 @@ class Card extends Component {
         try {
             const card = {
                 id: this.state.id,
-                completed: true,
+                completedAt: new Date().toISOString(),
             }
             await fetch('/api/tasks/edit/', {
                 credentials: 'include',
@@ -73,8 +72,8 @@ class Card extends Component {
         }
     }
 
-    getDate = () => {
-        const date = new Date(Date.parse(this.state.deadline))
+    getDate = (time) => {
+        const date = new Date(Date.parse(time))
         const dateOptions = {
             year: 'numeric',
             month: 'long',
@@ -124,53 +123,57 @@ class Card extends Component {
 
 
                         }
-                        {this.state.completed ? <></> :
-                         this.state.isEdit ?
-                            <>
-                                {!this.props.isCreating && <><Button className="bg-danger"
-                                                                     onClick={() => this.setState({
-                                                                         isEdit: false
-                                                                     })}>
-                                    Cancel
-                                </Button>
-                                    <Button className="float-right bg-success" onClick={this.saveChanges}>
-                                        Save
-                                    </Button></>}
-                            </> :
-                            <>
-                                <Button className="mr-3 bg-success" onClick={this.archiveCard}>
-                                    Archive
-                                </Button>
-                                <Button className="float-right bg-primary" onClick={() => this.setState({
-                                    isEdit: true
-                                })}>
-                                    Edit
-                                </Button>
-                            </>
+                        {this.state.completedAt ? <></> :
+                            this.state.isEdit ?
+                                <>
+                                    {!this.props.isCreating && <><Button className="bg-danger"
+                                                                         onClick={() => this.setState({
+                                                                             isEdit: false
+                                                                         })}>
+                                        Cancel
+                                    </Button>
+                                        <Button className="float-right bg-success" onClick={this.saveChanges}>
+                                            Save
+                                        </Button></>}
+                                </> :
+                                <>
+                                    <Button className="mr-3 bg-success" onClick={this.archiveCard}>
+                                        Archive
+                                    </Button>
+                                    <Button className="float-right bg-primary" onClick={() => this.setState({
+                                        isEdit: true
+                                    })}>
+                                        Edit
+                                    </Button>
+                                </>
                         }
                     </CardBody>
                     <CardFooter className="text-muted">
                         {this.state.isEdit ? <div className='container-fluid'>
-                            <DatePicker
-                                className="form-control"
-                                selected={new Date(this.state.deadline)}
-                                onChange={val =>
-                                    this.setState({deadline: val})
-                                }
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={15}
-                                dateFormat="MMMM d, yyyy h:mm aa"
-                                timeCaption="time"
-                            />
+                                <DatePicker
+                                    className="form-control"
+                                    selected={new Date(this.state.deadline)}
+                                    onChange={val =>
+                                        this.setState({deadline: val})
+                                    }
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    timeIntervals={15}
+                                    dateFormat="MMMM d, yyyy h:mm aa"
+                                    timeCaption="time"
+                                />
 
 
-                        </div> : this.getDate()}
+                            </div> :
+                            <div className='row'>{this.getDate(this.state.deadline)}</div>
+                        }
+                        {card.completedAt && (<div className='row'> {this.getDate(card.completedAt)} </div>)}
                     </CardFooter>
                 </CardR>
             </div>
         )
     }
 }
+
 
 export default Card;

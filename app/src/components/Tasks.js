@@ -6,7 +6,12 @@ import {
     ModalFooter,
     ModalHeader
 } from 'reactstrap';
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+import {removeUsername} from "../actions";
+import {compose} from "redux";
 import Card from "./Card";
+import {logout} from "../tools";
 
 
 class Tasks extends Component {
@@ -30,6 +35,12 @@ class Tasks extends Component {
         this.setState({modalIsOpen: false});
     }
 
+    logout = async ()=>{
+        this.props.removeUserName()
+        await logout();
+        this.props.history.push("/");
+    }
+
     refetch = async () => {
         try {
             const url = this.props.archived ? '/api/tasks/archive/' : '/api/tasks/'
@@ -44,7 +55,7 @@ class Tasks extends Component {
                 const cards = await data.json()
                 this.setState({cards})
             } else {
-                this.setState({error: true})
+                await this.logout()
             }
         } catch (e) {
             console.error(e)
@@ -61,7 +72,7 @@ class Tasks extends Component {
             "description": "",
             "deadline": new Date(),
             "importance": "standard",
-            "completed": false,
+            "completedAt": null,
         }
     }
 
@@ -129,4 +140,16 @@ class Tasks extends Component {
 }
 
 
-export default Tasks;
+const mapDispatchToProps = dispatch => {
+    return {
+        removeUserName: () => {
+            dispatch(removeUsername())
+        }
+    }
+}
+
+
+export default compose(withRouter, connect(
+    null,
+    mapDispatchToProps
+))(Tasks)

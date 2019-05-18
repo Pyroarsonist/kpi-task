@@ -12,7 +12,7 @@ public class RequestTaskDto {
 
     private String importance;
 
-    private Boolean completed;
+    private Timestamp completedAt;
 
     private Long id;
 
@@ -49,19 +49,19 @@ public class RequestTaskDto {
         this.importance = importance;
     }
 
-    public Boolean getCompleted() {
-        return completed;
-    }
-
-    public void setCompleted(Boolean completed) {
-        this.completed = completed;
-    }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Timestamp getCompletedAt() {
+        return completedAt;
+    }
+
+    public void setCompletedAt(Timestamp completedAt) {
+        this.completedAt = completedAt;
     }
 }
