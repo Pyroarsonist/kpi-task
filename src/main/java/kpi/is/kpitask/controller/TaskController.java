@@ -69,7 +69,7 @@ public class TaskController {
     public ResponseEntity<?> editTask(@Valid @RequestBody RequestTaskDto task, HttpSession session) {
         try {
             User user = getUser(session.getAttribute("userId"));
-            Long id = taskService.editTask(user, task.getId(), task.getTitle(), task.getDescription(), task.getDeadline(), task.getImportance(), task.getCompleted());
+            Long id = taskService.editTask(user, task.getId(), task.getTitle(), task.getDescription(), task.getDeadline(), task.getImportance(), task.getCompletedAt());
             return new ResponseEntity<>("Edited task #" + id, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

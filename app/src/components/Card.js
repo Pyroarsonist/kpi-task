@@ -55,8 +55,8 @@ class Card extends Component {
         try {
             const card = {
                 id: this.state.id,
-                completed: true,
-            };
+                completedAt: new Date().toISOString(),
+            }
             await fetch('/api/tasks/edit/', {
                 credentials: 'include',
                 headers: {
@@ -72,8 +72,8 @@ class Card extends Component {
         }
     };
 
-    getDate = () => {
-        const date = new Date(Date.parse(this.state.deadline));
+    getDate = (time) => {
+        const date = new Date(Date.parse(time))
         const dateOptions = {
             year: 'numeric',
             month: 'long',
@@ -123,7 +123,7 @@ class Card extends Component {
 
 
                         }
-                        {this.state.completed ? <></> :
+                        {this.state.completedAt ? <></> :
                          this.state.isEdit ?
                             <>
                                 {!this.props.isCreating && <><button className="btn btn-outline-danger"
@@ -150,26 +150,30 @@ class Card extends Component {
                     </CardBody>
                     <CardFooter className="text-muted">
                         {this.state.isEdit ? <div className='container-fluid'>
-                            <DatePicker
-                                className="form-control"
-                                selected={new Date(this.state.deadline)}
-                                onChange={val =>
-                                    this.setState({deadline: val})
-                                }
-                                showTimeSelect
-                                timeFormat="HH:mm"
-                                timeIntervals={15}
-                                dateFormat="MMMM d, yyyy h:mm aa"
-                                timeCaption="time"
-                            />
+                                <DatePicker
+                                    className="form-control"
+                                    selected={new Date(this.state.deadline)}
+                                    onChange={val =>
+                                        this.setState({deadline: val})
+                                    }
+                                    showTimeSelect
+                                    timeFormat="HH:mm"
+                                    timeIntervals={15}
+                                    dateFormat="MMMM d, yyyy h:mm aa"
+                                    timeCaption="time"
+                                />
 
 
-                        </div> : this.getDate()}
+                            </div> :
+                            <div className='row'>{this.getDate(this.state.deadline)}</div>
+                        }
+                        {card.completedAt && (<div className='row'> {this.getDate(card.completedAt)} </div>)}
                     </CardFooter>
                 </CardR>
             </div>
         )
     }
 }
+
 
 export default Card;

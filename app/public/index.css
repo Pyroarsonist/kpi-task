@@ -5,4 +5,9 @@ body {
 
 #root {
     height: 100%;
+    background-color: #f6fffd;
+}
+
+.footer {
+    background-color: rgba(178, 178, 178, 0.9);
 }
