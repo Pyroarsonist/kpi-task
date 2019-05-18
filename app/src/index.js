@@ -8,6 +8,7 @@ import 'font-awesome/css/font-awesome.min.css'
 import 'react-datepicker/dist/react-datepicker.css';
 import * as serviceWorker from './serviceWorker';
 import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 import Tasks from './components/Tasks'
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage'
@@ -21,7 +22,8 @@ const routing = (
     <Provider store={store}>
         <Router>
             <Navbar/>
-            <div className='container-fluid h-100'>
+            <main className='flex-shrink-0'>
+                <div className='container-fluid'>
                 <Route exact path="/" render={() => store.getState().userName ? (
                     <Redirect to="/tasks"/>
                 ) : (
@@ -31,7 +33,9 @@ const routing = (
                 <Route path="/tasks" render={(props) => <Tasks {...props} archived={false}/>}/>
                 <Route path="/archive" render={(props) => <Tasks {...props} archived={true}/>}/>
                 <Route path="/register" component={RegisterPage}/>
-            </div>
+                </div>
+            </main>
+            <Footer/>
         </Router>
     </Provider>
 )
