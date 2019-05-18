@@ -109,6 +109,59 @@ class Task extends Component {
     return date.toLocaleString('en-US', dateOptions);
   };
 
+  getButtons = () => {
+    if (this.state.completedAt) return null;
+    if (this.state.isEdit)
+      return (
+        <>
+          {!this.props.isCreating && (
+            <>
+              <button
+                type="button"
+                className="btn btn-outline-danger"
+                onClick={() =>
+                  this.setState({
+                    isEdit: false,
+                  })
+                }
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                className="btn btn-outline-success float-right"
+                onClick={this.saveChanges}
+              >
+                Save
+              </button>
+            </>
+          )}
+        </>
+      );
+    return (
+      <>
+        <button
+          type="button"
+          className="btn btn-outline-success mr-3"
+          onClick={this.archiveTask}
+        >
+          Archive
+        </button>
+        <button
+          type="button"
+          className="btn btn-outline-primary float-right"
+          onClick={() =>
+            this.setState({
+              isEdit: true,
+            })
+          }
+        >
+          Edit
+        </button>
+      </>
+    );
+  };
+
   render() {
     const { task } = this.props;
 
@@ -168,53 +221,7 @@ class Task extends Component {
                 <option value="vital">Vital</option>
               </select>
             )}
-            {!this.state.completedAt && this.state.isEdit ? (
-              <>
-                {!this.props.isCreating && (
-                  <>
-                    <button
-                      type="button"
-                      className="btn btn-outline-danger"
-                      onClick={() =>
-                        this.setState({
-                          isEdit: false,
-                        })
-                      }
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      className="btn btn-outline-success float-right"
-                      onClick={this.saveChanges}
-                    >
-                      Save
-                    </button>
-                  </>
-                )}
-              </>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  className="btn btn-outline-success mr-3"
-                  onClick={this.archiveTask}
-                >
-                  Archive
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-outline-primary float-right"
-                  onClick={() =>
-                    this.setState({
-                      isEdit: true,
-                    })
-                  }
-                >
-                  Edit
-                </button>
-              </>
-            )}
+            {this.getButtons()}
           </CardBody>
           <CardFooter className="text-muted">
             {this.state.isEdit ? (
