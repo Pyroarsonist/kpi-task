@@ -13,7 +13,7 @@ class Navbar extends Component {
         const name = this.props.name
         return (
             <header>
-                <nav className="navbar navbar-expand-md bg-dark navbar-dark sticky-top">
+                <nav style={{backgroundColor: "#1c313a"}} className="navbar navbar-expand-md navbar-dark sticky-top">
                     <Link to="/" className="navbar-brand pr-1 pt-1 pl-1">KPI-Task</Link>
                     <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
                             data-target="#navb" aria-expanded="true">

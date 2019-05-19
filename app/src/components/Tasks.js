@@ -102,11 +102,11 @@ class Tasks extends Component {
 
     render() {
         return (
-            <>
-                <div style={{backgroundColor: 'rgba(178, 178, 178, 0.9)'}} className='row pt-1'>
-                    <h1 style={{color: ''}} className='pl-3 pt-1'>TASKS</h1>
-                    <div className="ml-auto pr-5 mt-1">
-                        <button className="btn btn-outline-primary btn-lg" onClick={this.openModal}>Add task</button>
+            <div>
+                <div style={{backgroundColor: '#455a64', color: "white"}} className='row pt-1'>
+                    <h1 style={{color: ''}} className='ml-3 pt-1'>TASKS</h1>
+                    <div className="ml-auto mr-5 mt-1">
+                        <button className="btn btn-outline-light btn-lg" onClick={this.openModal}>Add task</button>
                     </div>
                         <Modal
                             isOpen={this.state.modalIsOpen}
@@ -164,7 +164,7 @@ class Tasks extends Component {
                         </div>
                     </div>}
 
-            </>
+            </div>
         )
     }
 }
