@@ -104,9 +104,9 @@ class Tasks extends Component {
         return (
             <div>
                 <div style={{backgroundColor: '#455a64', color: "white"}} className='row pt-1'>
-                    <h1 style={{color: ''}} className='ml-3 pt-1'>TASKS</h1>
+                    <h1 style={{color: ''}} className='ml-3 pt-1'>{this.props.archived ? 'Archive' : 'Tasks'}</h1>
                     <div className="ml-auto mr-5 mt-1">
-                        <button className="btn btn-outline-light btn-lg" onClick={this.openModal}>Add task</button>
+                        {this.props.archived || <button className="btn btn-outline-light btn-lg" onClick={this.openModal}>Add task</button>}
                     </div>
                         <Modal
                             isOpen={this.state.modalIsOpen}
@@ -134,13 +134,13 @@ class Tasks extends Component {
                     <div>
                         <div className="row pt-3">
                             <div className="col-4 text-center">
-                                <h3>VITAL TASKS</h3>
+                                <h3>Vital</h3>
                             </div>
                             <div className="col-4 text-center">
-                                <h3>IMPORTANT TASKS</h3>
+                                <h3>Important</h3>
                             </div>
                             <div className="col-4 text-center">
-                                <h3>STANDART TASKS</h3>
+                                <h3>Standard</h3>
                             </div>
                         </div>
                         <div className="row">

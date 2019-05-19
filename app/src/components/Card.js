@@ -21,7 +21,7 @@ class Card extends Component {
             case "important" :
                 return {backgroundColor: '#f9a825'};
             case "vital" :
-                return {backgroundColor: '#c62828', color: 'white'};
+                return {backgroundColor: '#b71c1c', color: 'white'};
             default:
                 return {backgroundColor: 'lightgray'};
         }
