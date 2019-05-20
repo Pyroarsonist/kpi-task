@@ -17,13 +17,13 @@ class Card extends Component {
     getImportanceClass = (importance) => {
         switch (importance) {
             case "standard" :
-                return 'rgba(204, 204, 204, 0.7)';
+                return {backgroundColor: '#1565c0', color: 'white'};
             case "important" :
-                return 'rgba(255, 255, 0, 0.7)';
+                return {backgroundColor: '#f9a825'};
             case "vital" :
-                return 'rgba(255, 0, 0, 0.7)';
+                return {backgroundColor: '#b71c1c', color: 'white'};
             default:
-                return 'rgba(255, 255, 255, 1)';
+                return {backgroundColor: 'lightgray'};
         }
     };
 
@@ -92,9 +92,9 @@ class Card extends Component {
         const {card} = this.props;
 
         return (
-            <div className={cx('mt-2 mb-3', this.props.isCreating ? "col-12" : "col-4")}>
+            <div className={cx('mt-2 mb-3', this.props.isCreating ? "col-12" : "col-12")}>
                 <CardR>
-                    <CardHeader style={{background: this.getImportanceClass(card.importance)}}>
+                    <CardHeader style={this.getImportanceClass(card.importance)}>
                         {this.state.isEdit ?
                             <Input type="text" placeholder='Title' value={this.state.title} className="w-100"
                                    onChange={(e) => this.setState({

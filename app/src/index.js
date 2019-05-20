@@ -33,7 +33,7 @@ const routing = (
                 <Route path="/archive" render={(props) => <Tasks {...props} archived={true}/>}/>
                 <Route path="/register" component={RegisterPage}/>
             </main>
-            <Footer/>
+            {/*<Footer/>*/}
         </Router>
     </Provider>
 );
