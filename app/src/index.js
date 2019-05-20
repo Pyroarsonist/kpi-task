@@ -8,7 +8,7 @@ import 'font-awesome/css/font-awesome.min.css';
 import 'react-datepicker/dist/react-datepicker.css';
 import * as serviceWorker from './serviceWorker';
 import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+// import Footer from './components/Footer';
 import Tasks from './components/Tasks';
 import LoginPage from './components/LoginPage';
 import RegisterPage from './components/RegisterPage';
@@ -17,35 +17,23 @@ import createStore from './createReduxStore';
 const store = createStore();
 
 const routing = (
-  <Provider store={store}>
-    <Router>
-      <Navbar />
-      <main className="container-fluid h-75">
-        <Route
-          exact
-          path="/"
-          render={() =>
-            store.getState().userName ? (
-              <Redirect to="/tasks" />
-            ) : (
-              <Redirect to="/login" />
-            )
-          }
-        />
-        <Route path="/login" component={LoginPage} />
-        <Route
-          path="/tasks"
-          render={props => <Tasks {...props} archived={false} />}
-        />
-        <Route
-          path="/archive"
-          render={props => <Tasks {...props} archived />}
-        />
-        <Route path="/register" component={RegisterPage} />
-      </main>
-      <Footer />
-    </Router>
-  </Provider>
+    <Provider store={store}>
+        <Router>
+            <Navbar/>
+            <main className='container-fluid h-75'>
+                <Route exact path="/" render={() => store.getState().userName ? (
+                    <Redirect to="/tasks"/>
+                ) : (
+                    <Redirect to="/login"/>
+                )}/>
+                <Route path="/login" component={LoginPage}/>
+                <Route path="/tasks" render={(props) => <Tasks {...props} archived={false}/>}/>
+                <Route path="/archive" render={(props) => <Tasks {...props} archived/>}/>
+                <Route path="/register" component={RegisterPage}/>
+            </main>
+            {/*<Footer/>*/}
+        </Router>
+    </Provider>
 );
 
 ReactDOM.render(routing, document.getElementById('root'));

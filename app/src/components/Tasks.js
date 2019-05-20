@@ -106,92 +106,98 @@ class Tasks extends Component {
     await this.refetch();
   };
 
-  getTasks = () => {
-    if (this.state.loading)
-      return (
-        <div className="row align-items-center h-50 justify-content-center">
-          <div className="text-center col-3 mt-5">
-            <h2 className="h3 mb-3 font-weight-normal">
+    getTasks = () => {
+        if (this.state.loading)
+            return (
+                <div className="row align-items-center h-50 justify-content-center">
+                    <div className="text-center col-3 mt-5">
+                        <h2 className="h3 mb-3 font-weight-normal">
               <span className="ml-3">
                 Loading <i className="fa fa-spinner fa-pulse fa-fw" />
               </span>
-            </h2>
-          </div>
-        </div>
-      );
-    return this.state.tasks.length ? (
-      <div className="d-flex flex-wrap align-content-around">
-        {this.state.tasks.map(task => (
-          <Task task={task} key={task.id} refetch={this.refetch} />
-        ))}
-      </div>
-    ) : (
-      <div className="row align-items-center h-50 justify-content-center">
-        <div className="text-center col-3 mt-5">
-          <h2 className="h3 mb-3 font-weight-normal">No tasks available</h2>
-        </div>
-      </div>
-    );
-  };
-
-  getModal = () => {
-    return (
-      <>
-        <div className="ml-auto pr-5 mt-1">
-          <button
-            className="btn btn-outline-primary btn-lg"
-            type="button"
-            onClick={this.openModal}
-          >
-            Add task
-          </button>
-        </div>
-        <Modal isOpen={this.state.modalIsOpen}>
-          <ModalHeader>
-            <div>Creating new task</div>
-          </ModalHeader>
-          <ModalBody>
-            <div className="container-fluid">
-              <Task
-                task={this.getDefaultCard()}
-                ref={this.createdTask}
-                refetch={this.refetch}
-                isCreating
-              />
+                        </h2>
+                    </div>
+                </div>
+            );
+        return this.state.tasks.length ? (
+            <div>
+                <div className="row pt-3">
+                    <div className="col-4 text-center">
+                        <h3>Vital</h3>
+                    </div>
+                    <div className="col-4 text-center">
+                        <h3>Important</h3>
+                    </div>
+                    <div className="col-4 text-center">
+                        <h3>Standard</h3>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-4">
+                        {this.state.cards.filter((card) => card.importance === "vital").map(card =>
+                            <Card card={card} key={card.id} refetch={this.refetch}/>)}
+                    </div>
+                    <div className="col-4">
+                        {this.state.cards.filter((card) => card.importance === "important").map(card =>
+                            <Card card={card} key={card.id} refetch={this.refetch}/>)}
+                    </div>
+                    <div className="col-4">
+                        {this.state.cards.filter((card) => card.importance === "standard").map(card =>
+                            <Card card={card} key={card.id} refetch={this.refetch}/>)}
+                    </div>
+                </div>
             </div>
-          </ModalBody>
-          <ModalFooter>
-            <button
-              className="btn btn-secondary"
-              type="button"
-              onClick={this.closeModal}
-            >
-              Close
-            </button>
-            <button
-              className="btn-primary btn"
-              type="button"
-              onClick={this.saveCard}
-            >
-              Save Changes
-            </button>
-          </ModalFooter>
-        </Modal>
-      </>
-    );
-  };
+        ) : (
+            <div className='row align-items-center h-50 justify-content-center'>
+                <div className="text-center col-3 mt-5">
+                    <h2 className="h3 mb-3 font-weight-normal">No tasks available</h2>
+                </div>
+            </div>
+        );
+    };
 
-  render() {
-    return (
-      <>
-        <div className="row pt-4">
-          <h1 className="pl-3 pt-1">Tasks</h1>
-          {this.getModal()}
-        </div>
-        {this.getTasks()}
-      </>
-    );
-  }
+    getTitleAndModal = () => {
+        return (
+            <div style={{backgroundColor: '#455a64', color: "white"}} className='row pt-1'>
+                <h1 style={{color: ''}} className='ml-3 pt-1'>{this.props.archived ? 'Archive' : 'Tasks'}</h1>
+                <div className="ml-auto mr-5 mt-1">
+                    {this.props.archived || <button className="btn btn-outline-light btn-lg" onClick={this.openModal}>Add task</button>}
+                </div>
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                >
+                    <ModalHeader>
+                        <div>Creating new task</div>
+                    </ModalHeader>
+                    <ModalBody>
+                        <div className='container-fluid'>
+                            <Card card={this.getDefaultCard()} ref="createdCard" isCreating/>
+                        </div>
+                    </ModalBody>
+                    <ModalFooter>
+                        <button className="btn btn-secondary" onClick={this.closeModal}>
+                            Close
+                        </button>
+                        <button className="btn-primary btn" onClick={this.saveCard}>
+                            Save Changes
+                        </button>
+                    </ModalFooter>
+
+                </Modal>
+            </div>
+        );
+    };
+
+    render() {
+        return (
+            <div>
+                    {this.getTitleAndModal()}
+                {this.getTasks()}
+            </div>
+        );
+    }
+
+
 }
 
 const mapDispatchToProps = dispatch => {
