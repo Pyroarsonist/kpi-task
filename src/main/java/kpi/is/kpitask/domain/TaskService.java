@@ -20,7 +20,7 @@ public class TaskService {
     public Iterable<Task> getTasks(User user, Boolean completed) {
         if (!completed)
             return taskRepository.findByUserOrderByImportance(user.getId());
-        return taskRepository.findTasksByUserOrderByCompletedAtDesc(user);
+        return taskRepository.findTasksByUserAndCompletedAtIsNotNullAtOrderByCompletedAtDesc(user.getId());
     }
 
 
