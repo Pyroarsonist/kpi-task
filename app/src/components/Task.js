@@ -147,7 +147,7 @@ class Task extends Component {
           className="btn btn-outline-success mr-3"
           onClick={this.archiveTask}
         >
-          Archive
+          Complete
         </button>
         <button
           type="button"
@@ -164,6 +164,19 @@ class Task extends Component {
     );
   };
 
+  selectColorClass = () => {
+    switch (this.state.importance) {
+      case 'standard':
+        return 'border-primary';
+      case 'important':
+        return 'border-warning';
+      case 'vital':
+        return 'border-danger';
+      default:
+        return 'border-primary';
+    }
+  };
+
   render() {
     const { task } = this.props;
 
@@ -173,6 +186,7 @@ class Task extends Component {
           <CardHeader style={this.getImportanceClass(task.importance)}>
             {this.state.isEdit ? (
               <Input
+                title="Title"
                 type="text"
                 placeholder="Title"
                 value={this.state.title}
@@ -184,13 +198,14 @@ class Task extends Component {
                 }
               />
             ) : (
-              task.title
+              <span title="Title">{task.title}</span>
             )}
           </CardHeader>
           <CardBody>
             <CardText>
               {this.state.isEdit ? (
                 <textarea
+                  title="Description"
                   className={cx(
                     this.state.description ? 'is-valid' : 'is-invalid',
                     'form-control',
@@ -204,18 +219,23 @@ class Task extends Component {
                   }
                 />
               ) : (
-                task.description
+                <span title="Description">{task.description}</span>
               )}
             </CardText>
             {this.state.isEdit && (
               <select
+                title="Importance"
                 value={this.state.importance}
                 onChange={e =>
                   this.setState({
                     importance: e.target.value,
                   })
                 }
-                className={cx('form-control', !this.props.isCreating && 'mb-4')}
+                className={cx(
+                  'form-control',
+                  !this.props.isCreating && 'mb-4',
+                  this.selectColorClass(),
+                )}
               >
                 <option value="standard">Standard</option>
                 <option value="important">Important</option>
@@ -226,7 +246,7 @@ class Task extends Component {
           </CardBody>
           <CardFooter className="text-muted">
             {this.state.isEdit ? (
-              <div className="container-fluid">
+              <div className="container-fluid" title="Deadline">
                 <DatePicker
                   className="form-control"
                   selected={new Date(this.state.deadline)}
@@ -239,10 +259,14 @@ class Task extends Component {
                 />
               </div>
             ) : (
-              <div className="row">{this.getDate(this.state.deadline)}</div>
+              <div className="row" title="Deadline">
+                {this.getDate(this.state.deadline)}
+              </div>
             )}
             {task.completedAt && (
-              <div className="row"> {this.getDate(task.completedAt)} </div>
+              <div className="row" title="Completed date">
+                {this.getDate(task.completedAt)}
+              </div>
             )}
           </CardFooter>
         </Card>
