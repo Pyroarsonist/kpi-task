@@ -51,6 +51,8 @@ class Task extends Component {
 
   saveChanges = async () => {
     try {
+      if (!this.state.title || !this.state.description)
+        throw new Error('No title or description set');
       const task = {
         deadline: this.state.deadline,
         id: this.state.id,
@@ -174,7 +176,7 @@ class Task extends Component {
                 type="text"
                 placeholder="Title"
                 value={this.state.title}
-                className="w-100"
+                className={cx(this.state.title ? 'is-valid' : 'is-invalid')}
                 onChange={e =>
                   this.setState({
                     title: e.target.value,
@@ -189,7 +191,10 @@ class Task extends Component {
             <CardText>
               {this.state.isEdit ? (
                 <textarea
-                  className="w-100 form-control"
+                  className={cx(
+                    this.state.description ? 'is-valid' : 'is-invalid',
+                    'form-control',
+                  )}
                   value={this.state.description}
                   placeholder="Description"
                   onChange={e =>
