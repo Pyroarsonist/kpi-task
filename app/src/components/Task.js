@@ -102,13 +102,11 @@ class Task extends Component {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
-      weekday: 'long',
       timezone: 'UTC',
       hour: 'numeric',
       minute: 'numeric',
-      second: 'numeric',
     };
-    return date.toLocaleString('en-US', dateOptions);
+    return date.toLocaleString('en-GB', dateOptions);
   };
 
   getButtons = () => {
@@ -244,27 +242,27 @@ class Task extends Component {
             )}
             {this.getButtons()}
           </CardBody>
-          <CardFooter className="text-muted">
+          <CardFooter>
             {this.state.isEdit ? (
               <div className="container-fluid" title="Deadline">
                 <DatePicker
                   className="form-control"
+                  minDate={new Date()}
                   selected={new Date(this.state.deadline)}
                   onChange={val => this.setState({ deadline: val })}
                   showTimeSelect
                   timeFormat="HH:mm"
                   timeIntervals={15}
-                  dateFormat="MMMM d, yyyy h:mm aa"
-                  timeCaption="time"
+                  dateFormat="d MMMM yyyy, H:mm"
                 />
               </div>
             ) : (
-              <div className="row" title="Deadline">
-                {this.getDate(this.state.deadline)}
+              <div className="row ml-1 text-info" title="Deadline">
+                {this.getDate(task.deadline)}
               </div>
             )}
             {task.completedAt && (
-              <div className="row" title="Completed date">
+              <div className="row ml-1 text-muted" title="Completed date">
                 {this.getDate(task.completedAt)}
               </div>
             )}
