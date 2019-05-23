@@ -85,6 +85,8 @@ class Tasks extends Component {
   saveTask = async () => {
     const { state: taskFromState } = this.createdTask.current;
     try {
+      if (!taskFromState.title || !taskFromState.description)
+        throw new Error('No title or description set');
       const task = {
         deadline: new Date(taskFromState.deadline).toISOString(),
         description: taskFromState.description,
@@ -99,11 +101,11 @@ class Tasks extends Component {
         method: 'POST',
         body: JSON.stringify(task),
       });
+      this.closeModal();
+      await this.refetch();
     } catch (e) {
       console.error(e);
     }
-    this.closeModal();
-    await this.refetch();
   };
 
   getActiveTasks = () => {
@@ -190,7 +192,7 @@ class Tasks extends Component {
         style={{ backgroundColor: '#455a64', color: 'white' }}
         className="row pt-1"
       >
-        <h1 style={{ color: '' }} className="ml-3 pt-1">
+        <h1 className="ml-3 pt-1">
           {this.props.archived ? 'Archive' : 'Tasks'}
         </h1>
         <div className="ml-auto mr-5 mt-1">
