@@ -58,4 +58,12 @@ public class TaskService {
         return task.getId();
     }
 
+    public void deleteTask(User user, Long id) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (optionalTask.isEmpty()) throw new Error("Task not found");
+        Task task = optionalTask.get();
+        if (!user.getId().equals(task.getUser().getId()))
+            throw new Error("Access denied");
+        taskRepository.deleteById(id);
+    }
 }

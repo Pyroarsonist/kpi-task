@@ -76,4 +76,16 @@ public class TaskController {
         }
     }
 
+    @PostMapping(produces = "application/json")
+    @RequestMapping("/delete")
+    public ResponseEntity<?> deleteTask(@Valid @RequestBody RequestTaskDto task, HttpSession session) {
+        try {
+            User user = getUser(session.getAttribute("userId"));
+            taskService.deleteTask(user, task.getId());
+            return new ResponseEntity<>("Deleted task #" + task.getId(), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
 }
