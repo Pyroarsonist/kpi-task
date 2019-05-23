@@ -28,18 +28,18 @@ public class TaskController {
     @GetMapping
     @RequestMapping("/")
     public @ResponseBody
-    Iterable<Task> getTasks(HttpSession session) {
+    Iterable<Task> getTasks(HttpSession session, @RequestParam(required = false) String search) {
         User user = getUser(session.getAttribute("userId"));
-        return taskService.getTasks(user, false);
+        return taskService.getTasks(user, false, search);
     }
 
 
     @GetMapping
     @RequestMapping("/archive")
     public @ResponseBody
-    Iterable<Task> getArchivedTasks(HttpSession session) {
+    Iterable<Task> getArchivedTasks(HttpSession session, @RequestParam(required = false) String search) {
         User user = getUser(session.getAttribute("userId"));
-        return taskService.getTasks(user, true);
+        return taskService.getTasks(user, true, search);
     }
 
     private User getUser(Object id) {
@@ -71,6 +71,18 @@ public class TaskController {
             User user = getUser(session.getAttribute("userId"));
             Long id = taskService.editTask(user, task.getId(), task.getTitle(), task.getDescription(), task.getDeadline(), task.getImportance(), task.getCompletedAt());
             return new ResponseEntity<>("Edited task #" + id, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping(produces = "application/json")
+    @RequestMapping("/delete")
+    public ResponseEntity<?> deleteTask(@Valid @RequestBody RequestTaskDto task, HttpSession session) {
+        try {
+            User user = getUser(session.getAttribute("userId"));
+            taskService.deleteTask(user, task.getId());
+            return new ResponseEntity<>("Deleted task #" + task.getId(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }

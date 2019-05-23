@@ -10,6 +10,7 @@ import {
 import cx from 'classnames';
 import DatePicker from 'react-datepicker';
 import PropTypes from 'prop-types';
+import { confirmAlert } from 'react-confirm-alert';
 
 class Task extends Component {
   static propTypes = {
@@ -97,6 +98,25 @@ class Task extends Component {
     }
   };
 
+  deleteTask = async () => {
+    try {
+      const task = {
+        id: this.state.id,
+      };
+      await fetch('/api/tasks/delete/', {
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify(task),
+      });
+      await this.props.refetch();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   getDate = time => {
     const date = new Date(Date.parse(time));
     const dateOptions = {
@@ -111,7 +131,53 @@ class Task extends Component {
   };
 
   getButtons = () => {
-    if (this.state.completedAt) return null;
+    if (this.state.completedAt)
+      return (
+        <button
+          type="button"
+          className="btn btn-outline-danger float-right mr-3"
+          onClick={() => {
+            confirmAlert({
+              message: 'You sure?',
+              customUI: ({ onClose }) => {
+                return (
+                  <div className="container shadow-sm">
+                    <div style={{ padding: '50px' }}>
+                      <div className="row">
+                        <h1>Are you sure?</h1>
+                      </div>
+                      <div className="row">
+                        <span>You want to delete this task?</span>
+                      </div>
+                      <div className="row d-flex justify-content-between pt-3">
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-lg"
+                          onClick={async () => {
+                            await this.deleteTask();
+                            onClose();
+                          }}
+                        >
+                          Yes
+                        </button>
+                        <button
+                          type="button"
+                          onClick={onClose}
+                          className="btn btn-secondary btn-lg"
+                        >
+                          No
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              },
+            });
+          }}
+        >
+          Delete
+        </button>
+      );
     if (this.state.isEdit)
       return (
         <>
