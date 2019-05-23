@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
+import { debounce } from 'lodash';
 import Task from './Task';
 import { removeUsername } from '../actions';
 import { logout } from '../tools';
@@ -26,9 +27,11 @@ class Tasks extends Component {
       loading: true,
       tasks: [],
       modalIsOpen: false,
+      search: '',
     };
 
     this.createdTask = React.createRef();
+    this.search = debounce(this.refetch, 300);
   }
 
   async componentDidMount() {
@@ -38,8 +41,11 @@ class Tasks extends Component {
   refetch = async () => {
     try {
       this.setState({ loading: true });
+      const searchQuery = this.state.search
+        ? `?search=${this.state.search}`
+        : '';
       const url = this.props.archived ? '/api/tasks/archive/' : '/api/tasks/';
-      const data = await fetch(url, {
+      const data = await fetch(url + searchQuery, {
         credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
@@ -195,15 +201,30 @@ class Tasks extends Component {
         <h1 className="ml-3 pt-1">
           {this.props.archived ? 'Archive' : 'Tasks'}
         </h1>
-        <div className="ml-auto mr-5 mt-1">
+        <div className="ml-auto d-inline-flex justify-content-between  mt-1">
+          <div className="mr-5">
+            <input
+              type="text"
+              placeholder="Search"
+              className="form-control form-control-lg"
+              value={this.state.search}
+              onChange={e => {
+                const search = e.target.value;
+                this.setState({ search });
+                this.search();
+              }}
+            />
+          </div>
           {this.props.archived || (
-            <button
-              className="btn btn-outline-light btn-lg"
-              type="button"
-              onClick={this.openModal}
-            >
-              Add task
-            </button>
+            <div className="mr-5">
+              <button
+                className="btn btn-outline-light btn-lg"
+                type="button"
+                onClick={this.openModal}
+              >
+                Add task
+              </button>
+            </div>
           )}
         </div>
         <Modal isOpen={this.state.modalIsOpen}>

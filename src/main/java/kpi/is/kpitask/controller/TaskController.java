@@ -28,18 +28,18 @@ public class TaskController {
     @GetMapping
     @RequestMapping("/")
     public @ResponseBody
-    Iterable<Task> getTasks(HttpSession session) {
+    Iterable<Task> getTasks(HttpSession session, @RequestParam(required = false) String search) {
         User user = getUser(session.getAttribute("userId"));
-        return taskService.getTasks(user, false);
+        return taskService.getTasks(user, false, search);
     }
 
 
     @GetMapping
     @RequestMapping("/archive")
     public @ResponseBody
-    Iterable<Task> getArchivedTasks(HttpSession session) {
+    Iterable<Task> getArchivedTasks(HttpSession session, @RequestParam(required = false) String search) {
         User user = getUser(session.getAttribute("userId"));
-        return taskService.getTasks(user, true);
+        return taskService.getTasks(user, true, search);
     }
 
     private User getUser(Object id) {

@@ -17,10 +17,11 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public Iterable<Task> getTasks(User user, Boolean completed) {
+    public Iterable<Task> getTasks(User user, Boolean completed, String search) {
+        String searchString = search == null ? "%%" : "%" + search + "%";
         if (!completed)
-            return taskRepository.findByUserOrderByImportance(user.getId());
-        return taskRepository.findTasksByUserAndCompletedAtIsNotNullAtOrderByCompletedAtDesc(user.getId());
+            return taskRepository.findByUserOrderByImportance(user.getId(), searchString);
+        return taskRepository.findTasksByUserAndCompletedAtIsNotNullAtOrderByCompletedAtDesc(user.getId(), searchString);
     }
 
 
