@@ -157,7 +157,7 @@ class Tasks extends Component {
 
   getArchivedTasks = () => {
     return (
-      <div className="d-flex flex-wrap align-content-around">
+      <div className="d-flex flex-wrap align-content-around row pt-3">
         {this.state.tasks.map(task => (
           <Task task={task} key={task.id} refetch={this.refetch} />
         ))}
