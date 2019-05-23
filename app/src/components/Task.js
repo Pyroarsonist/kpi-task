@@ -16,6 +16,7 @@ class Task extends Component {
     refetch: PropTypes.func.isRequired,
     task: PropTypes.shape({
       deadline: PropTypes.string,
+      completedAt: PropTypes.string,
       id: PropTypes.number,
       description: PropTypes.string,
       importance: PropTypes.string,
@@ -163,60 +164,56 @@ class Task extends Component {
   };
 
   getCardFooterEdit = () => {
-      return (
-          <>
-          <div className="container-fluid" title="Deadline">
-              <DatePicker
-                  className="form-control"
-                  minDate={new Date()}
-                  selected={new Date(this.state.deadline)}
-                  onChange={val => this.setState({ deadline: val })}
-                  showTimeSelect
-                  timeFormat="HH:mm"
-                  timeIntervals={15}
-                  dateFormat="d MMMM yyyy, H:mm"
-              />
-          </div>
-          </>
-      )
-  }
+    return (
+      <>
+        <div className="container-fluid" title="Deadline">
+          <DatePicker
+            className="form-control"
+            minDate={new Date()}
+            selected={new Date(this.state.deadline)}
+            onChange={val => this.setState({ deadline: val })}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            dateFormat="d MMMM yyyy, H:mm"
+          />
+        </div>
+      </>
+    );
+  };
 
   getCardFooterArchive = () => {
-        return (
-            <>
-                <div className="row ml-1 text-muted" title="Deadline">
-                    {this.getDate(this.props.task.deadline)}
-                </div>
-            <div className="row ml-1" title="Completed date">
-                {this.getDate(this.props.task.completedAt)}
-            </div>
-            </>
-        )
-  }
+    return (
+      <>
+        <div className="row ml-1 text-muted" title="Deadline">
+          {this.getDate(this.props.task.deadline)}
+        </div>
+        <div className="row ml-1" title="Completed date">
+          {this.getDate(this.props.task.completedAt)}
+        </div>
+      </>
+    );
+  };
 
   getCardFooterTasks = () => {
-      if (Date.parse(this.props.task.deadline) < Date.now()) return(
-          <div className="row ml-1 text-danger" title="Deadline">
-              {this.getDate(this.props.task.deadline)}
-          </div>
-      )
-      return (<div className="row ml-1 text-muted" title="Deadline">
+    if (Date.parse(this.props.task.deadline) < Date.now())
+      return (
+        <div className="row ml-1 text-danger" title="Deadline">
           {this.getDate(this.props.task.deadline)}
-      </div>)
-  }
+        </div>
+      );
+    return (
+      <div className="row ml-1 text-muted" title="Deadline">
+        {this.getDate(this.props.task.deadline)}
+      </div>
+    );
+  };
 
   getCardFooter = () => {
-      console.log(this.props.task)
-      if (this.props.task.completedAt) return (
-          this.getCardFooterArchive()
-      )
-      if (this.props.task.isEdit) return (
-          this.getCardFooterEdit()
-      )
-      return (
-          this.getCardFooterTasks()
-      )
-  }
+    if (this.props.task.completedAt) return this.getCardFooterArchive();
+    if (this.state.isEdit) return this.getCardFooterEdit();
+    return this.getCardFooterTasks();
+  };
 
   selectColorClass = () => {
     switch (this.state.importance) {
@@ -298,9 +295,7 @@ class Task extends Component {
             )}
             {this.getButtons()}
           </CardBody>
-          <CardFooter>
-              {this.getCardFooter()}
-          </CardFooter>
+          <CardFooter>{this.getCardFooter()}</CardFooter>
         </Card>
       </div>
     );
