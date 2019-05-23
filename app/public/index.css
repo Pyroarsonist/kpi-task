@@ -5,4 +5,13 @@ body {
 
 #root {
     height: 100%;
+    background-color: #e0e0e0;
+}
+
+.footer {
+    background-color: rgba(178, 178, 178, 0.9);
+}
+
+.react-datepicker__time-list-item{
+    padding: 0 !important;
 }

@@ -1,9 +1,8 @@
-import {combineReducers} from "redux";
-import userName from './userName'
-
+import { combineReducers } from 'redux';
+import userName from './userName';
 
 export default combineReducers({
-    userName
-})
+  userName,
+});
 
-export {userName}
+export { userName };

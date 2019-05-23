@@ -17,8 +17,11 @@ public class TaskService {
     @Autowired
     private TaskRepository taskRepository;
 
-    public Iterable<Task> getTasks(User user, Boolean completed) {
-        return taskRepository.findByUserAndCompletedOrderByImportance(user.getId(), completed);
+    public Iterable<Task> getTasks(User user, Boolean completed, String search) {
+        String searchString = search == null ? "%%" : "%" + search + "%";
+        if (!completed)
+            return taskRepository.findByUserOrderByImportance(user.getId(), searchString);
+        return taskRepository.findTasksByUserAndCompletedAtIsNotNullAtOrderByCompletedAtDesc(user.getId(), searchString);
     }
 
 
@@ -29,13 +32,12 @@ public class TaskService {
         task.setDeadline(deadline);
         task.setImportance(importance);
         task.setUser(user);
-        task.setCompleted(false);
         task = taskRepository.save(task);
         taskRepository.flush();
         return task.getId();
     }
 
-    public Long editTask(User user, Long id, String title, String description, Timestamp deadline, String importance, Boolean completed) {
+    public Long editTask(User user, Long id, String title, String description, Timestamp deadline, String importance, Timestamp completedAt) {
         Optional<Task> optionalTask = taskRepository.findById(id);
         if (optionalTask.isEmpty()) throw new Error("Task not found");
         Task task = optionalTask.get();
@@ -49,11 +51,19 @@ public class TaskService {
             task.setDeadline(deadline);
         if (importance != null)
             task.setImportance(importance);
-        if (completed != null)
-            task.setCompleted(completed);
+        if (completedAt != null)
+            task.setCompletedAt(completedAt);
         task = taskRepository.save(task);
         taskRepository.flush();
         return task.getId();
     }
 
+    public void deleteTask(User user, Long id) {
+        Optional<Task> optionalTask = taskRepository.findById(id);
+        if (optionalTask.isEmpty()) throw new Error("Task not found");
+        Task task = optionalTask.get();
+        if (!user.getId().equals(task.getUser().getId()))
+            throw new Error("Access denied");
+        taskRepository.deleteById(id);
+    }
 }
